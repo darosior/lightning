@@ -1135,7 +1135,7 @@ def test_permuteroute(node_factory, bitcoind):
     chan_l2l4 = scid + '/0'
 
     # Simulate a failure at l3->l4.
-    route2 = l1.rpc.permuteroute(route, 2, exclude=[chan_l3l4_0, chan_l3l4_1])
+    route2 = l1.rpc.permuteroute(route, 2, [chan_l3l4_0, chan_l3l4_1])['route']
     # This should be the path l1->l2->l4
     assert len(route2) == 2
     assert route2[0]['channel'] == chan_l1l2
@@ -1143,13 +1143,13 @@ def test_permuteroute(node_factory, bitcoind):
 
     # Simulate a failure at l2->l4 for the route2, but with
     # l3->l4 path still valid.
-    route3 = l1.rpc.permuteroute(route, 1, exclude=[chan_l2l4])
+    route3 = l1.rpc.permuteroute(route, 1, [chan_l2l4])['route']
     # This should be same as original path l1->l2->l3->l4
     assert route == route3
 
     # Simulate impossible case.
     with pytest.raises(RpcError):
-        l1.rpc.permuteroute(route, 2, exclude=[chan_l3l4_0, chan_l3l4_1, chan_l2l4])
+        l1.rpc.permuteroute(route, 2, [chan_l3l4_0, chan_l3l4_1, chan_l2l4])
 
 
 @unittest.skipIf(not DEVELOPER, "need dev-compact-gossip-store")
