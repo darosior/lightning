@@ -1,7 +1,5 @@
-LIGHTNING-SETCHANNELFEE(7) Manual Page
-======================================
-lightning-setchannelfee - Command for setting specific routing fees on a
-lightning channel.
+lightning-setchannelfee -- Command for setting specific routing fees on a lightning channel
+===========================================================================================
 
 SYNOPSIS
 --------

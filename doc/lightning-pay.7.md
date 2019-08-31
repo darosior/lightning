@@ -1,6 +1,5 @@
-LIGHTNING-PAY(7) Manual Page
-============================
-lightning-pay - Command for sending a payment to a BOLT11 invoice
+lightning-pay -- Command for sending a payment to a BOLT11 invoice
+==================================================================
 
 SYNOPSIS
 --------

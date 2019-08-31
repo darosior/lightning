@@ -1,6 +1,5 @@
-LIGHTNING-PLUGIN(7) Manual Page
-===============================
-lightning-plugin - Manage plugins with RPC
+lightning-plugin -- Manage plugins with RPC
+===========================================
 
 SYNOPSIS
 --------

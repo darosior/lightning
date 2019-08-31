@@ -1,7 +1,5 @@
-LIGHTNING-LISTFORWARDS(7) Manual Page
-=====================================
-lightning-listforwards - Command showing all htlcs and their
-information.
+lightning-listforwards -- Command showing all htlcs and their information
+=========================================================================
 
 SYNOPSIS
 --------

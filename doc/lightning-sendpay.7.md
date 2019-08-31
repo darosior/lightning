@@ -1,6 +1,5 @@
-LIGHTNING-SENDPAY(7) Manual Page
-================================
-lightning-sendpay - Low-level command for sending a payment via a route.
+lightning-sendpay -- Low-level command for sending a payment via a route
+========================================================================
 
 SYNOPSIS
 --------

@@ -1,7 +1,5 @@
-LIGHTNING-TXDISCARD(7) Manual Page
-==================================
-lightning-txdiscard - Abandon a transaction from txprepare, release
-inputs
+lightning-txdiscard -- Abandon a transaction from txprepare, release inputs
+===========================================================================
 
 SYNOPSIS
 --------

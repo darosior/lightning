@@ -1,6 +1,5 @@
-LIGHTNING-WAITINVOICE(7) Manual Page
-====================================
-lightning-waitinvoice - Command for waiting for specific payment.
+lightning-waitinvoice -- Command for waiting for specific payment
+=================================================================
 
 SYNOPSIS
 --------

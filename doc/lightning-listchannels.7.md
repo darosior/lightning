@@ -1,7 +1,5 @@
-LIGHTNING-LISTCHANNELS(7) Manual Page
-=====================================
-lightning-listchannels - Command to query active lightning channels in
-the entire network.
+lightning-listchannels -- Command to query active lightning channels in the entire network
+==========================================================================================
 
 SYNOPSIS
 --------

@@ -1,7 +1,5 @@
-LIGHTNING-FUNDCHANNEL\_COMPLETE(7) Manual Page
-==============================================
-lightning-fundchannel\_complete - Command for completing channel
-establishment
+lightning-fundchannel\_complete -- Command for completing channel establishment
+===============================================================================
 
 SYNOPSIS
 --------
