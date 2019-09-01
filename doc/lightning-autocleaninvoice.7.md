@@ -1,6 +1,5 @@
 lightning-autocleaninvoice -- Set up auto-delete of expired invoice
 ===================================================================
-lightning-autocleaninvoice - Set up auto-delete of expired invoice
 
 SYNOPSIS
 --------

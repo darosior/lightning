@@ -82,7 +82,3 @@ RESOURCES
 ---------
 
 Main web site: <https://github.com/ElementsProject/lightning>
-
-------------------------------------------------------------------------
-
-Last updated 2019-05-22 16:46:09 CEST

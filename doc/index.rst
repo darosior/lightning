@@ -29,6 +29,8 @@ c-lightning Documentation
 
    lightningd <lightningd.8.md>
    lightningd-config <lightningd-config.5.md>
+   lightningd <lightningd.8.md>
+   lightningd-config <lightningd-config.5.md>
    lightning-autocleaninvoice <lightning-autocleaninvoice.7.md>
    lightning-check <lightning-check.7.md>
    lightning-cli <lightning-cli.1.md>

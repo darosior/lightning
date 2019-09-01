@@ -98,7 +98,3 @@ Lightning RFC site
 
 -   BOLT \#7:
     <https://github.com/lightningnetwork/lightning-rfc/blob/master/07-routing-gossip.md>
-
-------------------------------------------------------------------------
-
-Last updated 2019-06-12 11:16:20 CEST
