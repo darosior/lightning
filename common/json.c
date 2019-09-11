@@ -117,11 +117,13 @@ bool json_to_bool(const char *buffer, const jsmntok_t *tok, bool *b)
 {
 	if (tok->type != JSMN_PRIMITIVE)
 		return false;
-	if (memeqstr(buffer + tok->start, tok->end - tok->start, "true")) {
+	if (json_tok_streq(buffer, tok, "true")
+	    || memeqstr(buffer + tok->start, tok->end - tok->start, "true")) {
 		*b = true;
 		return true;
 	}
-	if (memeqstr(buffer + tok->start, tok->end - tok->start, "false")) {
+	if (json_tok_streq(buffer, tok, "false")
+	    || memeqstr(buffer + tok->start, tok->end - tok->start, "false")) {
 		*b = false;
 		return true;
 	}
