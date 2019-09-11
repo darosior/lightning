@@ -65,6 +65,7 @@ struct plugin {
 struct plugins {
 	struct list_head plugins;
 	size_t pending_manifests;
+	size_t pending_configs;
 	bool startup;
 
 	/* Currently pending requests by their request ID */

@@ -1,12 +1,166 @@
+#include <ccan/pipecmd/pipecmd.h>
 #include <ccan/tal/path/path.h>
 #include <common/json_command.h>
 #include <common/jsonrpc_errors.h>
 #include <common/param.h>
+#include <common/timeout.h>
 #include <dirent.h>
 #include <errno.h>
+#include <lightningd/io_loop_with_timers.h>
 #include <lightningd/plugin_control.h>
 #include <lightningd/plugin_hook.h>
 #include <unistd.h>
+
+/* A dummy structure used to give multiple arguments to callbacks. */
+struct dynamic_plugin {
+	struct plugin *plugin;
+	struct command *cmd;
+};
+
+/**
+ * Returned by all subcommands on success.
+ */
+static void plugin_dynamic_list_plugins(struct command *cmd)
+{
+	struct json_stream *response;
+	struct plugin *p;
+
+	response = json_stream_success(cmd);
+	json_array_start(response, "plugins");
+	list_for_each(&cmd->ld->plugins->plugins, p, list) {
+		json_object_start(response, NULL);
+		json_add_string(response, "name", p->cmd);
+		json_add_bool(response, "active",
+		              p->plugin_state == CONFIGURED);
+		json_object_end(response);
+	}
+	json_array_end(response);
+	was_pending(command_success(cmd, response));
+}
+
+/**
+ * Returned by all subcommands on error.
+ */
+static void plugin_dynamic_error(struct dynamic_plugin *dp, const char *error)
+{
+	plugin_kill(dp->plugin, "%s: %s", dp->plugin->cmd, error);
+	was_pending(command_fail(dp->cmd, JSONRPC2_INVALID_PARAMS,
+	                         "%s: %s", dp->plugin->cmd, error));
+}
+
+static void plugin_dynamic_timeout(struct dynamic_plugin *dp)
+{
+	plugin_dynamic_error(dp, "Timed out while waiting for plugin response");
+}
+
+static void plugin_dynamic_config_callback(const char *buffer,
+                                           const jsmntok_t *toks,
+                                           const jsmntok_t *idtok,
+                                           struct dynamic_plugin *dp)
+{
+	dp->plugin->plugin_state = CONFIGURED;
+	/* Reset the timer only now so that we are either configured, or
+	 * killed. */
+	tal_free(dp->plugin->timeout_timer);
+
+	if (--dp->plugin->plugins->pending_configs == 0
+		&& dp->plugin->plugins->pending_manifests) {
+		/* Nothing left, return the plugin list */
+		plugin_dynamic_list_plugins(dp->cmd);
+	}
+}
+
+/**
+ * Send the init message to the plugin. We don't care about its response,
+ * but it's considered the last part of the handshake : once it responds
+ * it is considered configured.
+ */
+static void plugin_dynamic_config(struct dynamic_plugin *dp)
+{
+	struct jsonrpc_request *req;
+
+	req = jsonrpc_request_start(dp->plugin, "init", dp->plugin->log,
+	                            plugin_dynamic_config_callback, dp);
+	plugin_populate_init_request(dp->plugin, req);
+	jsonrpc_request_end(req);
+	plugin_request_send(dp->plugin, req);
+}
+
+static void plugin_dynamic_manifest_callback(const char *buffer,
+                                             const jsmntok_t *toks,
+                                             const jsmntok_t *idtok,
+                                             struct dynamic_plugin *dp)
+{
+	if (!plugin_parse_getmanifest_response(buffer, toks, idtok, dp->plugin))
+		return plugin_dynamic_error(dp, "Gave a bad response to getmanifest");
+
+	if (!dp->plugin->dynamic)
+		return plugin_dynamic_error(dp, "Not a dynamic plugin");
+
+	/* We got the manifest, now send the init message */
+	plugin_dynamic_config(dp);
+}
+
+/**
+ * This starts a plugin : spawns the process, connect its stdout and stdin,
+ * then sends it a getmanifest request.
+ */
+static void plugin_start(struct dynamic_plugin *dp)
+{
+	int stdin, stdout;
+	char **p_cmd;
+	struct jsonrpc_request *req;
+	struct plugin *p = dp->plugin;
+
+	p->dynamic = true;
+	p_cmd = tal_arrz(NULL, char *, 2);
+	p_cmd[0] = p->cmd;
+	p->pid = pipecmdarr(&stdin, &stdout, &pipecmd_preserve, p_cmd);
+	if (p->pid == -1)
+		return plugin_dynamic_error(dp, "Error running command");
+	else
+		log_debug(dp->cmd->ld->plugins->log, "started(%u) %s", p->pid, p->cmd);
+	tal_free(p_cmd);
+	p->buffer = tal_arr(p, char, 64);
+	p->stop = false;
+	/* Give the plugin 3 seconds to respond to `getmanifest`, so we don't hang
+	 * too long on the RPC caller. */
+	p->timeout_timer = new_reltimer(dp->cmd->ld->timers, dp,
+	                                time_from_sec(3),
+	                                plugin_dynamic_timeout, dp);
+
+	/* Create two connections, one read-only on top of the plugin's stdin, and one
+	 * write-only on its stdout. */
+	io_new_conn(p, stdout, plugin_stdout_conn_init, p);
+	io_new_conn(p, stdin, plugin_stdin_conn_init, p);
+	req = jsonrpc_request_start(p, "getmanifest", p->log,
+	                            plugin_dynamic_manifest_callback, dp);
+	jsonrpc_request_end(req);
+	plugin_request_send(p, req);
+	p->plugins->pending_manifests++;
+	p->plugins->pending_configs++;
+}
+
+/**
+ * Called when trying to start a plugin through RPC, it starts the plugin and
+ * will give a result 3 seconds later at the most.
+ */
+static void plugin_dynamic_start(struct command *cmd, const char *plugin_path)
+{
+	struct dynamic_plugin *dp;
+
+	dp = tal(cmd, struct dynamic_plugin);
+	dp->cmd = cmd;
+	dp->plugin = plugin_register(cmd->ld->plugins, plugin_path);
+	if (!dp->plugin) {
+		plugin_dynamic_error(dp, "Is already registered");
+		return;
+	}
+
+	dp->plugin->plugins->pending_manifests = 0;
+	dp->plugin->plugins->pending_configs = 0;
+	plugin_start(dp);
+}
 
 /**
  * A plugin command which permits to control plugins without restarting
@@ -62,9 +216,10 @@ static struct command_result *json_plugin_control(struct command *cmd,
 			   NULL))
 			return command_param_failed();
 
-		if (access(plugin_path, X_OK) == 0)
-			plugin_register(cmd->ld->plugins, plugin_path);
-		else
+		if (access(plugin_path, X_OK) == 0) {
+			plugin_dynamic_start(cmd, plugin_path);
+			return command_still_pending(cmd);
+		} else
 			return command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 						   "%s is not executable: %s",
 						   plugin_path, strerror(errno));
@@ -97,10 +252,6 @@ static struct command_result *json_plugin_control(struct command *cmd,
 			return command_param_failed();
 		/* Don't do anything as we return the plugin list anyway */
 	}
-
-	/* The config function is called once we got the manifest,
-	 * in 'plugin_manifest_cb'.*/
-	plugins_start(cmd->ld->plugins, cmd->ld->dev_debug_subprocess);
 
 	response = json_stream_success(cmd);
 	json_array_start(response, "plugins");
