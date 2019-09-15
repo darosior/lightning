@@ -220,8 +220,7 @@ static void plugin_dynamic_rescan_plugins(struct command *cmd)
 	struct plugin *p;
 
 	/* This will not fail on "already registered" error. */
-	plugins_add_default_dir(cmd->ld->plugins,
-	                        path_join(tmpctx, cmd->ld->config_dir, "plugins"));
+	plugins_add_default_dir(cmd->ld->plugins);
 
 	cmd->ld->plugins->pending_manifests = 0;
 	cmd->ld->plugins->pending_configs = 0;
