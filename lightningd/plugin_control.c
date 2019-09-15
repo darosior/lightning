@@ -222,6 +222,35 @@ plugin_dynamic_stop(struct command *cmd, const char *plugin_name)
 }
 
 /**
+ * Look for additions in the default plugin directory.
+ */
+static void plugin_dynamic_rescan_plugins(struct command *cmd)
+{
+	bool found;
+	struct plugin *p;
+
+	/* This will not fail on "already registered" error. */
+	plugins_add_default_dir(cmd->ld->plugins,
+	                        path_join(tmpctx, cmd->ld->config_dir, "plugins"));
+
+	cmd->ld->plugins->pending_manifests = 0;
+	cmd->ld->plugins->pending_configs = 0;
+	found = false;
+	list_for_each(&cmd->ld->plugins->plugins, p, list) {
+		if (p->plugin_state == UNCONFIGURED) {
+			struct dynamic_plugin *dp = tal(cmd, struct dynamic_plugin);
+			dp->plugin = p;
+			dp->cmd = cmd;
+			plugin_start(dp);
+			found = true;
+		}
+	}
+
+	if (!found)
+		plugin_dynamic_list_plugins(cmd);
+}
+
+/**
  * A plugin command which permits to control plugins without restarting
  * lightningd. It takes a subcommand, and an optional subcommand parameter.
  */
@@ -232,12 +261,10 @@ static struct command_result *json_plugin_control(struct command *cmd,
 {
 	const char *subcmd;
 	subcmd = param_subcommand(cmd, buffer, params,
-				  "start", "stop", "startdir", "rescan", "list", NULL);
+	                          "start", "stop", "startdir",
+	                          "rescan", "list", NULL);
 	if (!subcmd)
 		return command_param_failed();
-
-	struct plugin *p;
-	struct json_stream *response;
 
 	if (streq(subcmd, "stop")) {
 		const char *plugin_name;
@@ -258,10 +285,9 @@ static struct command_result *json_plugin_control(struct command *cmd,
 			   NULL))
 			return command_param_failed();
 
-		if (access(plugin_path, X_OK) == 0) {
+		if (access(plugin_path, X_OK) == 0)
 			plugin_dynamic_start(cmd, plugin_path);
-			return command_still_pending(cmd);
-		} else
+		else
 			return command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 						   "%s is not executable: %s",
 						   plugin_path, strerror(errno));
@@ -274,10 +300,9 @@ static struct command_result *json_plugin_control(struct command *cmd,
 			   NULL))
 			return command_param_failed();
 
-		if (access(dir_path, F_OK) == 0) {
+		if (access(dir_path, F_OK) == 0)
 			plugin_dynamic_startdir(cmd, dir_path);
-			return command_still_pending(cmd);
-		} else
+		else
 			return command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 						   "Could not open %s", dir_path);
 	} else if (streq(subcmd, "rescan")) {
@@ -286,28 +311,23 @@ static struct command_result *json_plugin_control(struct command *cmd,
 			   NULL))
 			return command_param_failed();
 
-		plugins_add_default_dir(cmd->ld->plugins,
-				path_join(tmpctx, cmd->ld->config_dir, "plugins"));
+		/* Delay to avoid a race condition with command_still_pending */
+		new_reltimer(cmd->ld->timers, cmd,
+		             time_from_sec(1),
+		             plugin_dynamic_rescan_plugins, cmd);
 	} else if (streq(subcmd, "list")) {
 		if (!param(cmd, buffer, params,
 			   p_req("subcommand", param_ignore, cmd),
 			   NULL))
 			return command_param_failed();
-		/* Don't do anything as we return the plugin list anyway */
+
+		/* Delay to avoid a race condition with command_still_pending */
+		new_reltimer(cmd->ld->timers, cmd,
+		             time_from_sec(1),
+		             plugin_dynamic_list_plugins, cmd);
 	}
 
-	response = json_stream_success(cmd);
-	json_array_start(response, "plugins");
-	list_for_each(&cmd->ld->plugins->plugins, p, list) {
-		json_object_start(response, NULL);
-		json_add_string(response, "name", p->cmd);
-		json_add_bool(response, "active",
-			      p->plugin_state == CONFIGURED);
-		json_object_end(response);
-	}
-	json_array_end(response);
-
-	return command_success(cmd, response);
+	return command_still_pending(cmd);
 }
 
 static const struct json_command plugin_control_command = {
