@@ -101,10 +101,10 @@ def test_plugin_slowinit(node_factory):
         n.rpc.plugin_start(os.path.join(os.getcwd(),
                            "tests/plugins/slow_init.py"), timeout=1)
 
-    # It's not actually configured yet, see what happens;
-    # make sure 'rescan' and 'list' controls dont crash
-    n.rpc.plugin_rescan()
-    n.rpc.plugin_list()
+    # Test with a higher timeout (5 should be enough, 9 is for valgrind Travis
+    # tests).
+    n.rpc.plugin_start(os.path.join(os.getcwd(), "tests/plugins/slow_init.py"),
+                       timeout=5)
 
 
 def test_plugin_command(node_factory):
@@ -117,7 +117,8 @@ def test_plugin_command(node_factory):
     assert(len(cmd) == 0)
 
     # Add the 'contrib/plugins' test dir
-    n.rpc.plugin_startdir(directory=os.path.join(os.getcwd(), "contrib/plugins"))
+    n.rpc.plugin_startdir(directory=os.path.join(os.getcwd(),
+                          "contrib/plugins"), timeout=7)
     # Make sure that the 'hello' command from the helloworld.py plugin
     # is now available.
     cmd = [hlp for hlp in n.rpc.help()["help"] if "hello" in hlp["command"]]
@@ -130,7 +131,8 @@ def test_plugin_command(node_factory):
     # Make sure the plugin behaves normally after stop and restart
     assert("Successfully stopped helloworld.py." == n.rpc.plugin_stop(plugin="helloworld.py")[''])
     n.daemon.wait_for_log(r"Killing plugin: helloworld.py")
-    n.rpc.plugin_start(plugin=os.path.join(os.getcwd(), "contrib/plugins/helloworld.py"))
+    n.rpc.plugin_start(plugin=os.path.join(os.getcwd(),
+                       "contrib/plugins/helloworld.py"), timeout=7)
     n.daemon.wait_for_log(r"Plugin helloworld.py initialized")
     # Wait half a second to make slow systems (read Travis) happy
     time.sleep(0.5)

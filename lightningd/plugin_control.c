@@ -95,7 +95,8 @@ static void plugin_dynamic_manifest_callback(const char *buffer,
  * This starts a plugin : spawns the process, connect its stdout and stdin,
  * then sends it a getmanifest request.
  */
-static void plugin_start(struct dynamic_plugin *dp)
+static void
+plugin_start(struct dynamic_plugin *dp, unsigned int timeout_seconds)
 {
 	int stdin, stdout;
 	char **p_cmd;
@@ -116,7 +117,7 @@ static void plugin_start(struct dynamic_plugin *dp)
 	/* Give the plugin 3 seconds to respond to `getmanifest`, so we don't hang
 	 * too long on the RPC caller. */
 	p->timeout_timer = new_reltimer(dp->cmd->ld->timers, dp,
-	                                time_from_sec(3),
+	                                time_from_sec(timeout_seconds),
 	                                plugin_dynamic_timeout, dp);
 
 	/* Create two connections, one read-only on top of the plugin's stdin, and one
@@ -135,7 +136,9 @@ static void plugin_start(struct dynamic_plugin *dp)
  * Called when trying to start a plugin through RPC, it starts the plugin and
  * will give a result 3 seconds later at the most.
  */
-static void plugin_dynamic_start(struct command *cmd, const char *plugin_path)
+static void
+plugin_dynamic_start(struct command *cmd, const char *plugin_path,
+                     unsigned int timeout_seconds)
 {
 	struct dynamic_plugin *dp;
 
@@ -149,14 +152,16 @@ static void plugin_dynamic_start(struct command *cmd, const char *plugin_path)
 
 	dp->plugin->plugins->pending_manifests = 0;
 	dp->plugin->plugins->pending_configs = 0;
-	plugin_start(dp);
+	plugin_start(dp, timeout_seconds);
 }
 
 /**
  * Called when trying to start a plugin directory through RPC, it registers
  * all contained plugins recursively and then starts them.
  */
-static void plugin_dynamic_startdir(struct command *cmd, const char *dir_path)
+static void
+plugin_dynamic_startdir(struct command *cmd, const char *dir_path,
+                        unsigned int timeout_seconds)
 {
 	const char *err;
 	struct plugin *p;
@@ -177,7 +182,7 @@ static void plugin_dynamic_startdir(struct command *cmd, const char *dir_path)
 			struct dynamic_plugin *dp = tal(cmd, struct dynamic_plugin);
 			dp->plugin = p;
 			dp->cmd = cmd;
-			plugin_start(dp);
+			plugin_start(dp, timeout_seconds);
 		}
 	}
 	if (!found)
@@ -214,7 +219,8 @@ plugin_dynamic_stop(struct command *cmd, const char *plugin_name)
 /**
  * Look for additions in the default plugin directory.
  */
-static void plugin_dynamic_rescan_plugins(struct command *cmd)
+static void
+plugin_dynamic_rescan_plugins(struct command *cmd)
 {
 	bool found;
 	struct plugin *p;
@@ -230,7 +236,7 @@ static void plugin_dynamic_rescan_plugins(struct command *cmd)
 			struct dynamic_plugin *dp = tal(cmd, struct dynamic_plugin);
 			dp->plugin = p;
 			dp->cmd = cmd;
-			plugin_start(dp);
+			plugin_start(dp, 3);
 			found = true;
 		}
 	}
@@ -267,30 +273,34 @@ static struct command_result *json_plugin_control(struct command *cmd,
 		return plugin_dynamic_stop(cmd, plugin_name);
 	} else if (streq(subcmd, "start")) {
 		const char *plugin_path;
+		unsigned int *timeout_seconds;
 
 		if (!param(cmd, buffer, params,
 			   p_req("subcommand", param_ignore, cmd),
 			   p_req("plugin", param_string, &plugin_path),
+			   p_opt_def("timeout", param_number, &timeout_seconds, 3),
 			   NULL))
 			return command_param_failed();
 
 		if (access(plugin_path, X_OK) == 0)
-			plugin_dynamic_start(cmd, plugin_path);
+			plugin_dynamic_start(cmd, plugin_path, *timeout_seconds);
 		else
 			return command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 						   "%s is not executable: %s",
 						   plugin_path, strerror(errno));
 	} else if (streq(subcmd, "startdir")) {
 		const char *dir_path;
+		unsigned int *timeout_seconds;
 
 		if (!param(cmd, buffer, params,
 			   p_req("subcommand", param_ignore, cmd),
 			   p_req("directory", param_string, &dir_path),
+			   p_opt_def("timeout", param_number, &timeout_seconds, 3),
 			   NULL))
 			return command_param_failed();
 
 		if (access(dir_path, F_OK) == 0)
-			plugin_dynamic_startdir(cmd, dir_path);
+			plugin_dynamic_startdir(cmd, dir_path, *timeout_seconds);
 		else
 			return command_fail(cmd, JSONRPC2_INVALID_PARAMS,
 						   "Could not open %s", dir_path);

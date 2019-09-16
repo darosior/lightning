@@ -759,23 +759,25 @@ class LightningRpc(UnixDomainSocketRpc):
         }
         return self.call("ping", payload)
 
-    def plugin_start(self, plugin):
+    def plugin_start(self, plugin, timeout=None):
         """
         Adds a plugin to lightningd.
         """
         payload = {
             "subcommand": "start",
-            "plugin": plugin
+            "plugin": plugin,
+            "timeout": timeout,
         }
         return self.call("plugin", payload)
 
-    def plugin_startdir(self, directory):
+    def plugin_startdir(self, directory, timeout=None):
         """
         Adds all plugins from a directory to lightningd.
         """
         payload = {
             "subcommand": "startdir",
-            "directory": directory
+            "directory": directory,
+            "timeout": timeout,
         }
         return self.call("plugin", payload)
 
