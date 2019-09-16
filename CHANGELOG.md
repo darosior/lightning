@@ -24,6 +24,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - JSON API: The parameter `exclude` of `getroute` now also support node-id.
 - JSON-API: `pay` can exclude error nodes if the failcode of `sendpay` has the NODE bit set
 
+- JSON API: The `plugin` command now returns on error. A configurable timeout is added to `start` and `startdir`
+            subcommands at the end of which the plugin is errored if it did not complete the handshake with `lightningd`.
+
+- JSON API: The `plugin` command does not allow to start static plugins after `lightningd` startup anymore.
+
 ### Deprecated
 
 Note: You should always set `allow-deprecated-apis=false` to test for
