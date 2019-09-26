@@ -130,15 +130,11 @@ def test_plugin_command(node_factory):
     n.daemon.wait_for_log(r"Killing plugin: helloworld.py")
     n.rpc.plugin_start(plugin=os.path.join(os.getcwd(), "contrib/plugins/helloworld.py"))
     n.daemon.wait_for_log(r"Plugin helloworld.py initialized")
-    # Wait half a second to make slow systems (read Travis) happy
-    time.sleep(1.5)
     assert("Hello world" == n.rpc.call(method="hello"))
 
     # Now stop the helloworld plugin
     assert("Successfully stopped helloworld.py." == n.rpc.plugin_stop(plugin="helloworld.py")[''])
     n.daemon.wait_for_log(r"Killing plugin: helloworld.py")
-    # Wait half a second to make slow systems (read Travis) happy
-    time.sleep(1.5)
     # Make sure that the 'hello' command from the helloworld.py plugin
     # is not available anymore.
     cmd = [hlp for hlp in n.rpc.help()["help"] if "hello" in hlp["command"]]
