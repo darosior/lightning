@@ -76,6 +76,7 @@
 #include <lightningd/options.h>
 #include <onchaind/onchain_wire.h>
 #include <signal.h>
+#include <sodium.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -656,6 +657,12 @@ int main(int argc, char *argv[])
 	/*~ Every daemon calls this in some form: the hooks are for dumping
 	 * backtraces when we crash (if supported on this platform). */
 	daemon_setup(argv[0], log_backtrace_print, log_backtrace_exit);
+
+	/*~ We rely on libsodium for some of the crypto stuff, so we'd better
+	 * not start if it cannot do its job correctly. */
+	if (sodium_init() == -1)
+		errx(1, "Could not initialize libsodium. Maybe not enough entropy"
+		         " available ?");
 
 	/*~ There's always a battle between what a constructor like this
 	 * should do, and what should be added later by the caller.  In
