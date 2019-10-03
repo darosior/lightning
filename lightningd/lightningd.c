@@ -723,6 +723,11 @@ int main(int argc, char *argv[])
 	 * Daemon Software Module. */
 	hsm_init(ld);
 
+	/*~ If hsm_secret is encrypted, we don't need its encryption key
+	 * anymore. Note that sodium_munlock() also zeroes the memory.*/
+	if (ld->config.keypass)
+		sodium_munlock(ld->config.keypass->data, sizeof(ld->config.keypass->data));
+
 	/*~ Our default color and alias are derived from our node id, so we
 	 * can only set those now (if not set by config options). */
 	setup_color_and_alias(ld);
