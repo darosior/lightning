@@ -6,6 +6,7 @@ from lightning import RpcError, Millisatoshi
 from utils import only_one, wait_for, sync_blockheight
 
 import pytest
+import subprocess
 import time
 import unittest
 
@@ -448,3 +449,43 @@ def test_txprepare_restart(node_factory, bitcoind, chainparams):
     assert decode['txid'] == prep['txid']
     # All 10 inputs
     assert len(decode['vin']) == 10
+
+def test_hsm_secret_encryption(node_factory, executor):
+    l1 = node_factory.get_node()
+    password = "reckful\n"
+    # We need to simulate a terminal to use termios in `lightningd`.
+    master_fd, slave_fd = os.openpty()
+
+    # Test we can encrypt an already-existing and not encrypted hsm_secret
+    l1.rpc.stop()
+    l1.daemon.opts.update({"encrypted-hsm": None})
+    l1.daemon.start(stdin=slave_fd, wait_for_initialized=False)
+    time.sleep(1)
+    os.write(master_fd, password.encode("utf-8"))
+    l1.daemon.wait_for_log("Server started with public key")
+    id = l1.rpc.getinfo()["id"]
+
+    # Test we cannot start the same wallet without specifying --encrypted-hsm
+    l1.stop()
+    l1.daemon.opts.pop("encrypted-hsm")
+    l1.daemon.start(stdin=slave_fd, stderr=subprocess.STDOUT,
+                    wait_for_initialized=False)
+    time.sleep(1)
+    os.write(master_fd, password[2:].encode("utf-8"))
+    err = "hsm_secret is encrypted, you need to pass the --encrypted-hsm startup option."
+    assert l1.daemon.is_in_log(err)
+
+    # Test we cannot restore the same wallet with another password
+    l1.daemon.opts.update({"encrypted-hsm": None})
+    l1.daemon.start(stdin=slave_fd, stderr=subprocess.STDOUT,
+                    wait_for_initialized=False)
+    time.sleep(1)
+    os.write(master_fd, password[2:].encode("utf-8"))
+    l1.daemon.wait_for_log("Wrong password for encrypted hsm_secret.")
+
+    # Test we can restore the same wallet with the same password
+    l1.daemon.start(stdin=slave_fd, wait_for_initialized=False)
+    time.sleep(1)
+    os.write(master_fd, password.encode("utf-8"))
+    l1.daemon.wait_for_log("Server started with public key")
+    assert id == l1.rpc.getinfo()["id"]
