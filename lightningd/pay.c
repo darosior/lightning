@@ -1034,3 +1034,11 @@ static const struct json_command listsendpays_command = {
 	"Show sendpay, old and current, optionally limiting to {bolt11} or {payment_hash}."
 };
 AUTODATA(json_command, &listsendpays_command);
+
+static const struct json_command listpayments_command = {
+	"listpayments",
+	"payment",
+	json_listsendpays,
+	"Show outgoing payments",
+};
+AUTODATA(json_command, &listpayments_command);
