@@ -1139,6 +1139,8 @@ static void send_commit(struct peer *peer)
 		 * feerate! */
 		if (feerate > max)
 			feerate = max;
+		else if (feerate < peer->feerate_min)
+			feerate = peer->feerate_min;
 
 		if (feerate != channel_feerate(peer->channel, REMOTE)) {
 			u8 *msg;
