@@ -1410,6 +1410,32 @@ static void handle_peer_commit_sig(struct peer *peer, const u8 *msg)
 			&wscripts, peer->channel, &peer->next_local_per_commit,
 			peer->next_index[LOCAL], LOCAL);
 
+	#include <common/keyset.h>
+	struct keyset keyset;
+
+	derive_keyset(&peer->next_local_per_commit,
+			   (const struct basepoints *)&peer->channel->basepoints[LOCAL],
+			   (const struct basepoints *)&peer->channel->basepoints[!LOCAL],
+			   peer->channel->option_static_remotekey,
+			   &keyset);
+
+	status_unusual("{channeld} darosior         their_bp : %s, commit_point : %s, payment_key : %s",
+			type_to_string(tmpctx, struct pubkey, &peer->channel->basepoints[!LOCAL].payment),
+			type_to_string(tmpctx, struct pubkey, &peer->next_local_per_commit),
+			type_to_string(tmpctx, struct pubkey, &keyset.other_payment_key));
+
+	derive_keyset(&peer->remote_per_commit,
+			   (const struct basepoints *)&peer->channel->basepoints[LOCAL],
+			   (const struct basepoints *)&peer->channel->basepoints[!LOCAL],
+			   peer->channel->option_static_remotekey,
+			   &keyset);
+
+	status_unusual("{channeld remote_commit} darosior         their_bp : %s, commit_point : %s, payment_key : %s",
+			type_to_string(tmpctx, struct pubkey, &peer->channel->basepoints[!LOCAL].payment),
+			type_to_string(tmpctx, struct pubkey, &peer->remote_per_commit),
+			type_to_string(tmpctx, struct pubkey, &keyset.other_payment_key));
+
+
 	if (!derive_simple_key(&peer->channel->basepoints[REMOTE].htlc,
 			       &peer->next_local_per_commit, &remote_htlckey))
 		status_failed(STATUS_FAIL_INTERNAL_ERROR,

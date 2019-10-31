@@ -6,6 +6,8 @@
 #include <common/htlc_tx.h>
 #include <common/keyset.h>
 #include <common/permute_tx.h>
+#include <common/status.h>
+#include <common/type_to_string.h>
 #include <common/utils.h>
 
 #ifndef SUPERVERBOSE
@@ -212,6 +214,10 @@ struct bitcoin_tx *commit_tx(const tal_t *ctx,
 			     tal_hex(tmpctx, wscript));
 		n++;
 	}
+
+	status_unusual("{commit_tx} darosior         payment_key : %s",
+			type_to_string(tmpctx, struct pubkey, &keyset->other_payment_key));
+
 
 	/* BOLT #3:
 	 *

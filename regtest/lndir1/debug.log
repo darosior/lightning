@@ -1,0 +1,368 @@
+2019-10-29T12:10:55.921Z UNUSUAL lightningd(7847): Creating configuration directory /home/darosior/projects/lightning/regtest/lndir1
+2019-10-29T12:10:55.922Z DEBUG lightningd(7847): Opened log file debug.log
+2019-10-29T12:10:55.922Z DEBUG plugin-manager started(7849) /home/darosior/projects/lightning/lightningd/../plugins/fundchannel
+2019-10-29T12:10:55.923Z DEBUG plugin-manager started(7850) /home/darosior/projects/lightning/lightningd/../plugins/pay
+2019-10-29T12:10:55.923Z DEBUG plugin-manager started(7851) /home/darosior/projects/lightning/lightningd/../plugins/autoclean
+2019-10-29T12:10:55.924Z DEBUG plugin-manager started(7852) /home/darosior/projects/lightning/lightningd/../plugins/hsmtools
+2019-10-29T12:10:55.930Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_channeld
+2019-10-29T12:10:55.935Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_closingd
+2019-10-29T12:10:55.941Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_connectd
+2019-10-29T12:10:55.944Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_gossipd
+2019-10-29T12:10:55.947Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_hsmd
+2019-10-29T12:10:55.951Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_onchaind
+2019-10-29T12:10:55.955Z DEBUG lightningd(7847): testing /home/darosior/projects/lightning/lightningd/lightning_openingd
+2019-10-29T12:10:55.960Z INFO lightningd(7847): Creating database
+2019-10-29T12:10:55.977Z DEBUG lightning_hsmd(7860): pid 7860, msgfd 26
+2019-10-29T12:10:55.986Z DEBUG lightning_connectd(7861): pid 7861, msgfd 29
+2019-10-29T12:10:55.986Z DEBUG lightning_hsmd(7860): Client: Received message 11 from client
+2019-10-29T12:10:55.986Z UNUSUAL lightning_hsmd(7860): HSM: created new hsm_secret file
+2019-10-29T12:10:55.986Z DEBUG lightning_hsmd(7860): Client: Received message 9 from client
+2019-10-29T12:10:55.986Z DEBUG lightning_hsmd(7860): new_client: 0
+2019-10-29T12:10:56.015Z DEBUG lightning_connectd(7861): Created IPv4 listener on port 11001
+2019-10-29T12:10:56.015Z DEBUG lightning_connectd(7861): REPLY WIRE_CONNECTCTL_INIT_REPLY with 0 fds
+2019-10-29T12:10:56.015Z DEBUG lightning_gossipd(7862): pid 7862, msgfd 28
+2019-10-29T12:10:56.022Z UNUSUAL lightningd(7847): Waiting for bitcoind to warm up...
+2019-10-29T12:10:57.034Z UNUSUAL lightningd(7847): Waiting for initial block download (this can take a while!)
+2019-10-29T12:10:57.042Z DEBUG lightning_hsmd(7860): Client: Received message 9 from client
+2019-10-29T12:10:57.042Z DEBUG lightning_hsmd(7860): new_client: 0
+2019-10-29T12:10:57.043Z DEBUG lightning_gossipd(7862): total store load time: 0 msec
+2019-10-29T12:10:57.043Z DEBUG lightning_gossipd(7862): gossip_store: Read 0/0/0/0 cannounce/cupdate/nannounce/cdelete from store (0 deleted) in 1 bytes
+2019-10-29T12:10:57.043Z DEBUG lightning_gossipd(7862): seeker: state = STARTING_UP  New seeker
+2019-10-29T12:10:57.045Z UNUSUAL lightningd(7847): Unable to estimate CONSERVATIVE/2 fee
+2019-10-29T12:10:57.048Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/4 fee
+2019-10-29T12:10:57.050Z DEBUG lightningd(7847): Adding block 0: 0f9188f13cb7b2c71f2a335e3a4fc328bf5beb436012afca590b1a11466e2206
+2019-10-29T12:10:57.053Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/100 fee
+2019-10-29T12:10:57.053Z DEBUG lightningd(7847): Loaded 0 channels from DB
+2019-10-29T12:10:57.053Z DEBUG jsonrpc Listening on 'lightning-rpc'
+2019-10-29T12:10:57.053Z INFO plugin-hsmtools hsmtools initialized.
+2019-10-29T12:10:57.053Z DEBUG lightning_connectd(7861): REPLY WIRE_CONNECTCTL_ACTIVATE_REPLY with 0 fds
+2019-10-29T12:10:57.053Z INFO lightningd(7847): --------------------------------------------------
+2019-10-29T12:10:57.053Z INFO lightningd(7847): Server started with public key 0315871e45a56b84e395509cb9dd8106a56af8efbb743112a16cf1e7991eefbec8, alias testnode1 (color #031587) and lightningd v0.7.1-910-ge62a80d-modded
+2019-10-29T12:10:57.054Z DEBUG plugin-autoclean autocleaning not active
+2019-10-29T12:11:04.549Z INFO lightningd(7847): Bitcoind now synced.
+2019-10-29T12:11:16.603Z DEBUG lightning_connectd(7861): Connected out for 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1
+2019-10-29T12:11:16.604Z DEBUG lightning_hsmd(7860): Client: Received message 1 from client
+2019-10-29T12:11:16.604Z DEBUG lightning_connectd(7861): Connect OUT to 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1
+2019-10-29T12:11:16.604Z DEBUG lightning_connectd(7861): peer_out WIRE_INIT
+2019-10-29T12:11:16.604Z DEBUG lightning_connectd(7861): peer_in WIRE_INIT
+2019-10-29T12:11:16.605Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: pid 8470, msgfd 37
+2019-10-29T12:11:16.605Z DEBUG lightning_hsmd(7860): Client: Received message 10 from client
+2019-10-29T12:11:16.605Z DEBUG lightning_hsmd(7860): Client: Received message 9 from client
+2019-10-29T12:11:16.605Z DEBUG lightning_hsmd(7860): new_client: 1
+2019-10-29T12:11:16.612Z DEBUG lightning_hsmd(7860): Client: Received message 18 from client
+2019-10-29T12:11:16.612Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Handed peer, entering loop
+2019-10-29T12:11:27.061Z UNUSUAL lightningd(7847): Unable to estimate CONSERVATIVE/2 fee
+2019-10-29T12:11:27.063Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/4 fee
+2019-10-29T12:11:27.064Z DEBUG lightningd(7847): Adding block 1: 24d754bf3f5d0de4d8170679dcfb0ae1e43e2a0158badd9e4ccc08018ec4fb9e
+2019-10-29T12:11:27.069Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/100 fee
+2019-10-29T12:11:27.072Z DEBUG lightningd(7847): Adding block 2: 4c20445e0749bce727538360f064d5bcf0945aa46748daa235c3253acccc678b
+2019-10-29T12:11:27.080Z DEBUG lightningd(7847): Adding block 3: 77757628147e461120054e9d65778982b727d4675a3214deb356d10954ab69c7
+2019-10-29T12:11:27.088Z DEBUG lightningd(7847): Adding block 4: 7e0c3c6ae176e5fe29e8913ff53b3c8304ccc822cbc61bef8f66ff437c2e2929
+2019-10-29T12:11:27.097Z DEBUG lightningd(7847): Adding block 5: 10c59364ccb040dd01182c8e3d5ebce7a9eea37359a9a67feadf57ac349b0d3f
+2019-10-29T12:11:27.109Z DEBUG lightningd(7847): Adding block 6: 10894b591a606fa91e4527eb4ffb97bb7cb5786afa3481656e1218d5a0e6e771
+2019-10-29T12:11:27.123Z DEBUG lightningd(7847): Adding block 7: 0bcf9ad0f4b927d2ba8555de8ff39bea49c87d8b3513dbf3b03f1bf93e1720f5
+2019-10-29T12:11:27.140Z DEBUG lightningd(7847): Adding block 8: 5add809cde170754ec50ffdd28526595bf0b23446e3025e20b4e4886c8fa98f2
+2019-10-29T12:11:27.157Z DEBUG lightningd(7847): Adding block 9: 0b871c1eece063a8b94dcc644f1b682c7ddfe5846f40547b77a2b245dec8497a
+2019-10-29T12:11:27.174Z DEBUG lightningd(7847): Adding block 10: 3b7f3da61536e81b5a93a6e5909cb1d2dc25ad9b368a08078790fd9b8e991e82
+2019-10-29T12:11:27.191Z DEBUG lightningd(7847): Adding block 11: 4bd4d83985bcf348d786c1498f8eeff45053f3bbdf2344db95dfa8eca27b0134
+2019-10-29T12:11:27.208Z DEBUG lightningd(7847): Adding block 12: 1259730d243b04bf313608aef19d74d1879758c0b8b10bbbb34bce6b4ae2325e
+2019-10-29T12:11:27.226Z DEBUG lightningd(7847): Adding block 13: 24cda9de3eb7936fa2235d6dc9f9f7c191e2313db83be494a671096e668059be
+2019-10-29T12:11:27.243Z DEBUG lightningd(7847): Adding block 14: 3926575c7cb468d208e30f2075ec898a429d6930c0cb34e2b5f5cb2a398b6703
+2019-10-29T12:11:27.253Z DEBUG lightningd(7847): Adding block 15: 1dd6a58af03c13d75283b4a2850d285e684e276676e9455ea92a95db9ccad268
+2019-10-29T12:11:27.259Z DEBUG lightningd(7847): Adding block 16: 1a9b847c3eaa2882035671b3168b6b386282380d7067a0ceb46f41a06402e702
+2019-10-29T12:11:27.266Z DEBUG lightningd(7847): Adding block 17: 47acea99bfac66c8edccef00a4a9a47f79a662048cd4eaf4f7eb6d8a00100634
+2019-10-29T12:11:27.273Z DEBUG lightningd(7847): Adding block 18: 04284f9119765a11c652a58451bdba6599904d19276354c929add78918e26649
+2019-10-29T12:11:27.279Z DEBUG lightningd(7847): Adding block 19: 2bed725a8df56dc3637470656a1b8d61332ab8619289016a4e1199cecc01e154
+2019-10-29T12:11:27.286Z DEBUG lightningd(7847): Adding block 20: 1476d313729c4c1cf8cc2b9e03832485cc967358721cdfbaa24ed2e79b910ba1
+2019-10-29T12:11:27.293Z DEBUG lightningd(7847): Adding block 21: 315ce8837452149e4c42cd0bd6c8e239895e67376f3cbf6ac09623b3d51fdc09
+2019-10-29T12:11:27.307Z DEBUG lightningd(7847): Adding block 22: 28829d69eff20dc0f5b64a218f005d64318bcf736d0088a8010c597433bdab22
+2019-10-29T12:11:27.329Z DEBUG lightningd(7847): Adding block 23: 77677baa7507594b45c1b8c18126b6e7ab9056ad5da26bafd72d4cbd5eff20f8
+2019-10-29T12:11:27.349Z DEBUG lightningd(7847): Adding block 24: 0b0ac4ae776a2aed3a759cb71d26ed421d4985800fda2474435905855fc9d2e2
+2019-10-29T12:11:27.369Z DEBUG lightningd(7847): Adding block 25: 232d5af6f314170464f3d1ae4f1a5c21cfb746fbcffa64c9481aa20d2091f147
+2019-10-29T12:11:27.389Z DEBUG lightningd(7847): Adding block 26: 3fd61066bac9feeb8ba90bc0525989618c699d6783e4419289519c646a0b395d
+2019-10-29T12:11:27.409Z DEBUG lightningd(7847): Adding block 27: 673866595346057f59aabd9f884ee3f3cce6872a054c368fe14b0f5ff5b32af0
+2019-10-29T12:11:27.429Z DEBUG lightningd(7847): Adding block 28: 3294ff14f1bd07e996b94f9bfea27b2c0c2d77cbd1e2442870f4af0c65433fa2
+2019-10-29T12:11:27.450Z DEBUG lightningd(7847): Adding block 29: 1c92f11a4eb4ddda04d15b6581da9d49b18290618ad7a0eb68f08821abf39bd1
+2019-10-29T12:11:27.470Z DEBUG lightningd(7847): Adding block 30: 1345a74f96a730bb93a39f5f5f2896452852f393350140ed10f994d01b3a5f61
+2019-10-29T12:11:27.490Z DEBUG lightningd(7847): Adding block 31: 78f3ce739da4e0ff24e306b55993022d876052b4b5c3b40b98d3167f47b59fea
+2019-10-29T12:11:27.510Z DEBUG lightningd(7847): Adding block 32: 0aecd78f0ea2f960c8593e36e55da0fdb80c81539750a0a54bd9b1a6ed17d550
+2019-10-29T12:11:27.530Z DEBUG lightningd(7847): Adding block 33: 331fd28aa8c5ccc7a38edbff4815e532927b9b8732a4f700baa1e53368b69dcb
+2019-10-29T12:11:27.550Z DEBUG lightningd(7847): Adding block 34: 00dbdcae1d6fa1c9917001144bf6326966f8c446cccb926f1c80e44bdb4795c6
+2019-10-29T12:11:27.570Z DEBUG lightningd(7847): Adding block 35: 56e9a07009f986096c9fcd4ce93682d4e9cfa2856d2ec25bf1aeedfe3f34f02d
+2019-10-29T12:11:27.591Z DEBUG lightningd(7847): Adding block 36: 5c75c9f3e17b7baa9a0621b8bdc63918351b69e5d85ec9f2ae3255768de719bb
+2019-10-29T12:11:27.611Z DEBUG lightningd(7847): Adding block 37: 7f05678571abbd9c33da123de99e4ee17a0819e8ff1ac5ae151de5fd7bf0843f
+2019-10-29T12:11:27.632Z DEBUG lightningd(7847): Adding block 38: 0f8485a218c8136961575ed0e36fe8d59492df280f3c3eb3bcbee21100b523d4
+2019-10-29T12:11:27.652Z DEBUG lightningd(7847): Adding block 39: 657a8540735c98d3998f55b43177f0083949b5460b62d1c3256d38629e191420
+2019-10-29T12:11:27.672Z DEBUG lightningd(7847): Adding block 40: 2410a0b496855f513ecee7606502a657561823f73c30d41a2872b96c480a84ea
+2019-10-29T12:11:27.692Z DEBUG lightningd(7847): Adding block 41: 29735f52a6a92d35d1907ae3765c85fffb5a0dbb2d748223002683b02ddce948
+2019-10-29T12:11:27.712Z DEBUG lightningd(7847): Adding block 42: 27053e41853c4b5f2adf72b488df980baf9efe61487c167aaa52e6c52d2d153f
+2019-10-29T12:11:27.732Z DEBUG lightningd(7847): Adding block 43: 1243bad676835a95786009e3cf14ab0032ef27636d4a9d726649ef03ab00acad
+2019-10-29T12:11:27.752Z DEBUG lightningd(7847): Adding block 44: 543b07b116cbb31fb1ad0ac3d6f528ee9cf8022e0b58a7bd4ab1e553764c2a18
+2019-10-29T12:11:27.772Z DEBUG lightningd(7847): Adding block 45: 79afa76a54c9101d31a7a381528b3955adbc9eb7cfb86e9fb05670b560f94765
+2019-10-29T12:11:27.793Z DEBUG lightningd(7847): Adding block 46: 6d5405b858208a4cf1e4ea6fef78cac261ea7e688bc5c411142cc070ee81064d
+2019-10-29T12:11:27.813Z DEBUG lightningd(7847): Adding block 47: 3b8c871d851a1df75408f6ff31576e2b78c72c8cf14900e7ac727ddd977a010e
+2019-10-29T12:11:27.833Z DEBUG lightningd(7847): Adding block 48: 2fabfda561693c209d69707fe18945ad24f161a32d60f998d070537d67df6729
+2019-10-29T12:11:27.854Z DEBUG lightningd(7847): Adding block 49: 44510065671054dbb0fce003e4a78d6f2b7b24ffdeebd3a2e97b4d75e2a8c5c5
+2019-10-29T12:11:27.874Z DEBUG lightningd(7847): Adding block 50: 362b3c28f63bdf48e7d6619aabb3bcf760a5667349c59c469beb06e9a46b669d
+2019-10-29T12:11:27.894Z DEBUG lightningd(7847): Adding block 51: 3cab5b185a6ef7773c16d2a26c0fb63eb4ac439f34fe424bc28af8a5587342c3
+2019-10-29T12:11:27.914Z DEBUG lightningd(7847): Adding block 52: 2b49d0a62315ffbfa51761d4a2a8001b2bce2d1976806ed718575a12d7bf2deb
+2019-10-29T12:11:27.936Z DEBUG lightningd(7847): Adding block 53: 3fb4658eab4db48b469ae676114d6bcd53f08597e41f1d1ba2304a7e283c2d9a
+2019-10-29T12:11:27.953Z DEBUG lightningd(7847): Adding block 54: 187898bbafd5d1900bf6284b5de12fdf6f5eaed9d9227afa6cba665793ca05d8
+2019-10-29T12:11:27.960Z DEBUG lightningd(7847): Adding block 55: 15a6463a16bcf2b8c6f3304d188f121d3de73005fa1558e1654ca16e4d494e53
+2019-10-29T12:11:27.966Z DEBUG lightningd(7847): Adding block 56: 74990ffd73ee6331209f9e61400469c2cc985f85ead0ae7cec47f84dd3023fb7
+2019-10-29T12:11:27.972Z DEBUG lightningd(7847): Adding block 57: 601004582b106e13cede3de73c7eb537934b04b1d5c1adc6652fd9b0048ca070
+2019-10-29T12:11:27.980Z DEBUG lightningd(7847): Adding block 58: 64423b37257bcbe43b6c1c28b44eb5e89c5dfa7fdc465c886b5df91be192261e
+2019-10-29T12:11:27.987Z DEBUG lightningd(7847): Adding block 59: 7da1eb92a7cb686314d33f032abc09dd11297d4256173cccfcad9800845afce9
+2019-10-29T12:11:27.994Z DEBUG lightningd(7847): Adding block 60: 69749a793b51ea9b8d52496639f3be47df5daac7a9e90cd6d8ab6ab8741fe5f4
+2019-10-29T12:11:28.001Z DEBUG lightningd(7847): Adding block 61: 281b0b6843992ac93074b4f242e27a4c4241122d1401d0addee06b70da553350
+2019-10-29T12:11:28.008Z DEBUG lightningd(7847): Adding block 62: 395a5df82680ee3e29a0ab47a6d73b87de5f5d2e264f65644207815e69d94641
+2019-10-29T12:11:28.015Z DEBUG lightningd(7847): Adding block 63: 34addecf2d558b410fcd186966af24228ed7b979e03294fc3778fc297ec8ff74
+2019-10-29T12:11:28.022Z DEBUG lightningd(7847): Adding block 64: 695bcf08b8276ba21edf559ef940c49190789a5798b720c7d7c945e4ba00c517
+2019-10-29T12:11:28.029Z DEBUG lightningd(7847): Adding block 65: 6daf7539d07030af1d7044fdc9b0b8488eba61152c87320799ad24ac1ed7f111
+2019-10-29T12:11:28.035Z DEBUG lightningd(7847): Adding block 66: 02799c431e6d346dd149d3f3efba0f9c944303ad5a4a16f4e84c23097e112f52
+2019-10-29T12:11:28.041Z DEBUG lightningd(7847): Adding block 67: 115f8c022a965d53008bc34ff1bc2ed0fa4f2640d470d7e848d475008238d165
+2019-10-29T12:11:28.048Z DEBUG lightningd(7847): Adding block 68: 730d1a40ff5ca593119b932eecb357dcca4c486aba1567d4dc9516f2f94b187b
+2019-10-29T12:11:28.061Z DEBUG lightningd(7847): Adding block 69: 10cda99a10967c05b0ca86bab56b7eafd070f817077bd4b3645d442383e30780
+2019-10-29T12:11:28.080Z DEBUG lightningd(7847): Adding block 70: 07522e13e8e6744b8b6c10d52ffcc6ac32928a22511757735a264b2d483d3b90
+2019-10-29T12:11:28.099Z DEBUG lightningd(7847): Adding block 71: 499f9745bba78ad7fa0128a39618c6ef8f8bba4ae3dcb7566f1a6dc853db8e20
+2019-10-29T12:11:28.117Z DEBUG lightningd(7847): Adding block 72: 504e75dd53c89d628ce3a0d14d5c6f68d55ba967fc920bfb6f428e847682de6c
+2019-10-29T12:11:28.136Z DEBUG lightningd(7847): Adding block 73: 2436d6183fc33261155625052c0558f6e962f877d34c736256ec51e7d6749c7d
+2019-10-29T12:11:28.155Z DEBUG lightningd(7847): Adding block 74: 1b4b420b55da51e178a83fdca2f08c6a39ff9d733cc6ab21036b27c8f5f28d53
+2019-10-29T12:11:28.173Z DEBUG lightningd(7847): Adding block 75: 6803df6fd37a3da9e6368d14aaba78a271b1b3d1e347ce6cbe2ce9b600f1764b
+2019-10-29T12:11:28.192Z DEBUG lightningd(7847): Adding block 76: 156b152b8006f1a014ae58d3c0a198779321681a144960a53a52b63ea213e4bd
+2019-10-29T12:11:28.212Z DEBUG lightningd(7847): Adding block 77: 1b12ef3476825180c6ad56662a4f987f1645bd957263c780c7760daa3289c8d1
+2019-10-29T12:11:28.224Z DEBUG lightningd(7847): Adding block 78: 74ac4f028bc80f93e00a8c0563f06c270ddef3657f8bb3f1a6b86e653cc98add
+2019-10-29T12:11:28.232Z DEBUG lightningd(7847): Adding block 79: 1aaab645f64f0ef6e0b61af424b2e3576a67993fca67066452b5a7633f53eafc
+2019-10-29T12:11:28.240Z DEBUG lightningd(7847): Adding block 80: 75b44e7d265bd14d5e263ae1a56a0f80f3a3dc4286206e93f564e00e5992bbd0
+2019-10-29T12:11:28.246Z DEBUG lightningd(7847): Adding block 81: 70bbd1dbaf381b455c130c86713693f33dcf5a66d31ac95a0099ced99a97aa86
+2019-10-29T12:11:28.252Z DEBUG lightningd(7847): Adding block 82: 01f06d774291aae1ce16d2f64d6085c0c31057a3e43deda0afc546211ac178b5
+2019-10-29T12:11:28.258Z DEBUG lightningd(7847): Adding block 83: 122f9caf2e9b7e9b1ef9e10caa9fc2ede9d2a72178d40354758ea5aa7c9f7e19
+2019-10-29T12:11:28.264Z DEBUG lightningd(7847): Adding block 84: 1ccf634e9c9affe2330492b9e49ebb1fe7f369da969294674bc94a23bb5a18cd
+2019-10-29T12:11:28.272Z DEBUG lightningd(7847): Adding block 85: 0f1f724c8afc188b714034e93c37a2599deb86610e25bcf7081503ad7bd58866
+2019-10-29T12:11:28.279Z DEBUG lightningd(7847): Adding block 86: 00f95ae1d1715b0e204ccc0173302ae065bb8a1e9b506b4585ec2be63e56fa30
+2019-10-29T12:11:28.285Z DEBUG lightningd(7847): Adding block 87: 0071ccb1cfdcb6965cc899cd7fa910160ca6cd8866efac07014ebbba46e2e78e
+2019-10-29T12:11:28.291Z DEBUG lightningd(7847): Adding block 88: 1f511355b0e1c466ffa1af85f05cb9038b49a1ac7a0bfda2227947744cb08c4d
+2019-10-29T12:11:28.298Z DEBUG lightningd(7847): Adding block 89: 029f066fb91ce5c9b0b8b9a630f9b2f8ba0bd3d255d57a9581fea8b390117669
+2019-10-29T12:11:28.304Z DEBUG lightningd(7847): Adding block 90: 60713d1da59dd6ec0cde457e5a8a92ee90d2b7293997db34a357aa925d983c7d
+2019-10-29T12:11:28.310Z DEBUG lightningd(7847): Adding block 91: 591fbe5c68aa24719f6df0db529809518f70d58f9e1665defb8e4ce95a238860
+2019-10-29T12:11:28.317Z DEBUG lightningd(7847): Adding block 92: 5ad25379fa271e359d698ddeb7f2952fbe0fa0fa6d6895bddbcb45c1e87d7c01
+2019-10-29T12:11:28.323Z DEBUG lightningd(7847): Adding block 93: 2d75025cb03c1ffb50fa21dfbf972741311ae470b29af9f6f5193467b50387b6
+2019-10-29T12:11:28.330Z DEBUG lightningd(7847): Adding block 94: 4149243f20b2037bdf35049a6bb0da5c353abb1b69e3107f0cfabe1f8d06825f
+2019-10-29T12:11:28.338Z DEBUG lightningd(7847): Adding block 95: 615697086a51635a52541864663400c6eefebe5d9ba93c50dd528b12df2f3379
+2019-10-29T12:11:28.346Z DEBUG lightningd(7847): Adding block 96: 2ac2715195d975501a31ed1dd6f74922712a09852be555f3003b708a11cc4ff4
+2019-10-29T12:11:28.354Z DEBUG lightningd(7847): Adding block 97: 5bc470c669740c9bb7abc95047c0d8326a5e08e7897bb59b1867b21f357ed39d
+2019-10-29T12:11:28.362Z DEBUG lightningd(7847): Adding block 98: 4c22eaf87fae8ea2a95b7e2e3a7564ef777ec56a1f864dbac4743515804b5538
+2019-10-29T12:11:28.370Z DEBUG lightningd(7847): Adding block 99: 4c9402cd0d5986d16a557b863ea94fbdf906df3b931dc6b3da9951b171fd11a1
+2019-10-29T12:11:28.378Z DEBUG lightningd(7847): Adding block 100: 1d355ca5c14ff5ad385e80d5c6c0ff5da0d50eeba7179af99e92ebc35e62298b
+2019-10-29T12:11:28.386Z DEBUG lightningd(7847): Adding block 101: 4b663c770cfc09df348eb963c7e7db08183bb39e5e81c8429e01a0e75765f28c
+2019-10-29T12:11:28.394Z DEBUG lightningd(7847): Adding block 102: 4cb518e8d669d50c9d61a745889803ebbf71cb7584c993258a250d3a0521eeed
+2019-10-29T12:11:28.402Z DEBUG lightningd(7847): Adding block 103: 5ea7463ebfb7195a7fc33a255e1ff6df270f9c401a9059f1e674625741947a7a
+2019-10-29T12:11:28.409Z DEBUG lightningd(7847): Adding block 104: 702aaf698824493309237bbbd73f95fca950cb8d4153fb58df44cd1356c7c2d1
+2019-10-29T12:11:28.418Z DEBUG lightningd(7847): Adding block 105: 2ceaf95a254e99c71ecc4e03ceb456e328f3997786e22f54e65181a653defed8
+2019-10-29T12:11:28.427Z DEBUG lightningd(7847): Adding block 106: 5e03dd1b9ed9b8fca50433901dc6b65a1097a6c6991010acee477b9cbeb8b62a
+2019-10-29T12:11:28.437Z DEBUG lightningd(7847): Adding block 107: 35f7fa88a41338c05a8081b063d678b0c517b2fb0f6da3bdb7e14c51c570dd5a
+2019-10-29T12:11:28.446Z DEBUG lightningd(7847): Adding block 108: 75831fbdb712811440b12e583f740ca6126faa63d3fc00a0c80da1520e3597d7
+2019-10-29T12:11:28.453Z DEBUG lightningd(7847): Adding block 109: 5be121c2dd04bb245c1ece2d13ce627f98e8f253b08bd39f6ac9720b38442533
+2019-10-29T12:11:28.463Z DEBUG lightningd(7847): Adding block 110: 1866784ef61991d36b7eb9d04658187dc799ad0ab1f7f1b937ce40d966bc9c4e
+2019-10-29T12:11:28.474Z DEBUG lightningd(7847): Adding block 111: 09f0ca684fd18467fa838fbb8381d07b98f420c0f2027fb6b099ea602629ac11
+2019-10-29T12:11:28.484Z DEBUG lightningd(7847): Adding block 112: 49ed9d37a74318ccb9179f983248843fd898c0f58b18fc0f44d9caa1cc7ce9b9
+2019-10-29T12:11:28.494Z DEBUG lightningd(7847): Adding block 113: 6aa0ae051a602162dbb324fefc4195431705f365533f050c4f2428cc8547b6ac
+2019-10-29T12:11:28.506Z DEBUG lightningd(7847): Adding block 114: 7ff15dddef9d3aaeb1a27028935947906b38aba27c6345f6b5d9767c197ff58a
+2019-10-29T12:11:28.515Z DEBUG lightningd(7847): Adding block 115: 31579d2b5cc0454a20d9afd7f0b0cdd8631cca809cc7fc757db29b91bd7e4f0c
+2019-10-29T12:11:28.525Z DEBUG lightningd(7847): Adding block 116: 621a9bef40a4b92476227a997d4a1334b4d8988584f0975cf72a2917d0f9a418
+2019-10-29T12:11:28.535Z DEBUG lightningd(7847): Adding block 117: 481423b7563a3e813e2c4d4f706de6b892cd4bd8f06b16773f530a42ac7b8991
+2019-10-29T12:11:28.545Z DEBUG lightningd(7847): Adding block 118: 164183e60ef1224add6e0ab00bcbba8d6694bcd695300aacff7d88ac0302206e
+2019-10-29T12:11:28.554Z DEBUG lightningd(7847): Adding block 119: 45621979541e7ab1a3c4047dfaef39344022c1c9ff004005be13f017ecbea813
+2019-10-29T12:11:28.562Z DEBUG lightningd(7847): Adding block 120: 56409558f1ffa4291984db48f42e8b8d8b319a3f5a7a33fbd89efcde071ffbde
+2019-10-29T12:11:28.570Z DEBUG lightningd(7847): Adding block 121: 3e3fb1183b15012fae094cc177e2753c99e3ec4d4b9628402ccf2c5b71071a08
+2019-10-29T12:11:28.607Z DEBUG lightningd(7847): Adding block 122: 3a04a8c061404a59f85cd8575860a3f99caffb436ca1834ca848940d63780405
+2019-10-29T12:11:28.628Z DEBUG lightningd(7847): Adding block 123: 01e7b4ad45842176075a17ac387de9d5522e52d247f103ad88bbc9320b0300e8
+2019-10-29T12:11:28.649Z DEBUG lightningd(7847): Adding block 124: 66ae93ba59aaaa44e36ec60ecff468f6fe0c72579f1b6585cd93a64fb1410b86
+2019-10-29T12:11:28.650Z DEBUG lightningd(7847): Owning output 1 1000000000sat (SEGWIT) txid 846569186f57bd2d8e7514a5bd5d3fd70901da2a23c7eea16496223b1dcc8adb CONFIRMED
+2019-10-29T12:11:28.660Z DEBUG lightningd(7847): Adding block 125: 5c0e980907642b314d3dbbe4c63fe1a2c3012fc395989ca5d9ffba9344fc5471
+2019-10-29T12:11:28.669Z DEBUG lightningd(7847): Adding block 126: 2bb2a3436621095d720c5a9722fd6d857a2759dc46d628a16c43212e62a43037
+2019-10-29T12:11:30.057Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_OPEN_CHANNEL
+2019-10-29T12:11:30.058Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_ACCEPT_CHANNEL
+2019-10-29T12:11:30.070Z DEBUG lightning_hsmd(7860): Client: Received message 19 from client
+2019-10-29T12:11:30.070Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: signature 3044022044e151db5d6302ceba709762de95d5d0f901b8f8759e80da8cf79c8e97344f24022026a0963edcb32bf9ac65b4a158097e4d50eca60cd162441fcada4be219f477ce01 on tx 02000000010f0b45565088106c211022fcd0f41e5825f5ed5596cab619d8234943a651bad70000000000a9fc758001e9850100000000001600140585bdcf4abc4c95887fa3732f661b1fe4eeebd3cb1c8420 using key 03d47f95a11ed97624e57039939badf36edc37305c2de4e237820d7b18ad260050
+2019-10-29T12:11:30.070Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_FUNDING_CREATED
+2019-10-29T12:11:30.104Z DEBUG lightningd(7847): lightning_openingd-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_FUNDING_SIGNED
+2019-10-29T12:11:30.106Z DEBUG lightningd(7847): 023cec2d47aa78f29c00638de7484d093405b7060f305ddc4560438dec6b51009e
+2019-10-29T12:11:30.109Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: pid 9048, msgfd 39
+2019-10-29T12:11:30.109Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Waiting for funding confirmations
+2019-10-29T12:11:30.109Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Ignoring fee limits!
+2019-10-29T12:11:30.114Z DEBUG lightning_hsmd(7860): Client: Received message 9 from client
+2019-10-29T12:11:30.114Z DEBUG lightning_hsmd(7860): new_client: 1
+2019-10-29T12:11:30.116Z DEBUG lightningd(7847): sendrawtransaction: 02000000000101db8acc1d3b229664a1eec7232ada0109d73f5dbda514758e2dbd576f186965840100000000ffffffff02a086010000000000220020964feebf705453c18faf73ee75bd1532283fff0bb9a3c7165ceae140d947ee77c642993b000000001600149564f8e74c0f58aad7c61a1e3ce7a1f109c059200247304402207116c0105c1e956709cbd704408b1daa9bd8eac89f79e638bad1f4272c23e90c022045065344338b6139797db032f1ce3b39d8d884dedbb6c1b4e972f2b606a45bb50121038fe7cee7681278cdbc1db1b6e1d4ee26309139f412374133db0646a2c8b8eba600000000
+2019-10-29T12:11:30.121Z DEBUG lightning_hsmd(7860): Client: Received message 7 from client
+2019-10-29T12:11:30.126Z DEBUG lightningd(7847): sendrawtx exit 0, gave d7ba51a6434923d819b6ca9655edf525581ef4d0fc2210216c10885056450b0f?
+2019-10-29T12:11:30.128Z DEBUG lightningd(7847): Owning output 1 999899846sat (SEGWIT) txid d7ba51a6434923d819b6ca9655edf525581ef4d0fc2210216c10885056450b0f
+2019-10-29T12:11:30.135Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: init LOCAL: remote_per_commit = 023cec2d47aa78f29c00638de7484d093405b7060f305ddc4560438dec6b51009e, old_remote_per_commit = 023cec2d47aa78f29c00638de7484d093405b7060f305ddc4560438dec6b51009e next_idx_local = 1 next_idx_remote = 1 revocations_received = 0 feerates 253/253 (range 253-4294967295)
+2019-10-29T12:11:30.135Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: option_static_remotekey = 0
+2019-10-29T12:11:30.136Z DEBUG lightning_hsmd(7860): Client: Received message 18 from client
+2019-10-29T12:11:55.237Z DEBUG lightning_gossipd(7862): REPLY WIRE_GOSSIP_GETCHANNELS_REPLY with 0 fds
+2019-10-29T12:11:55.237Z DEBUG lightning_gossipd(7862): Trying to find a route from (me) to 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 for 43994003msat
+2019-10-29T12:11:55.237Z INFO lightning_gossipd(7862): find_route: cannot find 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1
+2019-10-29T12:11:55.237Z DEBUG lightning_gossipd(7862): REPLY WIRE_GOSSIP_GETROUTE_REPLY with 0 fds
+2019-10-29T12:11:57.044Z DEBUG lightning_gossipd(7862): seeker: startup peer is 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1
+2019-10-29T12:11:57.045Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Gossipd told us to send 010906226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f00000000ffffffff
+2019-10-29T12:11:57.045Z DEBUG lightning_gossipd(7862): seeker: starting gossip from 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1
+2019-10-29T12:11:57.045Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_GOSSIP_TIMESTAMP_FILTER
+2019-10-29T12:11:57.077Z UNUSUAL lightningd(7847): Unable to estimate CONSERVATIVE/2 fee
+2019-10-29T12:11:57.080Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/4 fee
+2019-10-29T12:11:57.083Z UNUSUAL lightningd(7847): Unable to estimate ECONOMICAL/100 fee
+2019-10-29T12:11:58.394Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_GOSSIP_TIMESTAMP_FILTER
+2019-10-29T12:11:58.696Z DEBUG lightningd(7847): Adding block 127: 71a591c308d342ec45937a7fcefb562c5c962fdaac94deb6a5fa7b6c5668a846
+2019-10-29T12:11:58.696Z DEBUG lightningd(7847): Owning output 1 999899846sat (SEGWIT) txid d7ba51a6434923d819b6ca9655edf525581ef4d0fc2210216c10885056450b0f CONFIRMED
+2019-10-29T12:11:58.702Z DEBUG lightningd(7847): Adding block 128: 3fadcde6b56c2cfae9c6641b7b576be4eb17205861bac4d2657ac14ffbefa3f7
+2019-10-29T12:11:58.709Z DEBUG lightningd(7847): Adding block 129: 2757a425ff7e0daeaa794ac0dc33e4fcc6045d773b0109bf7a9582e3fecf79b8
+2019-10-29T12:11:58.716Z DEBUG lightningd(7847): Adding block 130: 1f135a830729b329e1c7eab3d01c44e7670dde148360f7d0a7ae70c15fab267c
+2019-10-29T12:11:58.723Z DEBUG lightningd(7847): Adding block 131: 4aa10112cb1fbf055cda563b69d9ac11238291535a15ae0dad1ced0757746088
+2019-10-29T12:11:58.739Z DEBUG lightningd(7847): Adding block 132: 45b3ac6e1963bc041d42c5b3869ff95417b5fd8d12aef288f3dd8f65bbb98cad
+2019-10-29T12:11:58.750Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got depth change 0->6 for d7ba51a6434923d819b6ca9655edf525581ef4d0fc2210216c10885056450b0f
+2019-10-29T12:11:58.750Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Funding tx d7ba51a6434923d819b6ca9655edf525581ef4d0fc2210216c10885056450b0f depth 6 of 1
+2019-10-29T12:11:58.755Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: funding_locked: sending commit index 1: 0300440ea672af18dc3cf6b1baf8fa273433b6372c4922202f000595f019c0aacd
+2019-10-29T12:11:58.755Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_FUNDING_LOCKED
+2019-10-29T12:12:00.066Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_FUNDING_LOCKED
+2019-10-29T12:12:00.066Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got funding_locked
+2019-10-29T12:12:00.066Z INFO lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: State changed from CHANNELD_AWAITING_LOCKIN to CHANNELD_NORMAL
+2019-10-29T12:12:00.072Z DEBUG lightning_hsmd(7860): Client: Received message 2 from client
+2019-10-29T12:12:00.072Z DEBUG lightning_gossipd(7862): local_add_channel 127x1x0
+2019-10-29T12:12:00.072Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Exchanging announcement signatures.
+2019-10-29T12:12:00.072Z DEBUG lightning_hsmd(7860): Client: Received message 3 from client
+2019-10-29T12:12:00.072Z DEBUG lightning_gossipd(7862): Received channel_update for channel 127x1x0/0 now ACTIVE (from 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1)
+2019-10-29T12:12:00.072Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_ANNOUNCEMENT_SIGNATURES
+2019-10-29T12:12:00.072Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Gossipd told us to send 010228cce10edef21ea23b0b3985af6c31a5d160d4e7e91507310715b8a7c076d9503502171891735083f96aa2cb9480c9288c5cc8b7ede9758810a1bdb5fb8c8dd506226e46111a0b59caaf126043eb5bbf28c34f3a5e332a1fc7b2b73cf188910f00007f00000100005db82b64010000060000000000000000000000010000000a0000000005e69ec0
+2019-10-29T12:12:00.072Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_ANNOUNCEMENT_SIGNATURES
+2019-10-29T12:12:00.111Z DEBUG lightning_gossipd(7862): Received channel_update for channel 127x1x0/1 now ACTIVE (from 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1)
+2019-10-29T12:12:04.789Z DEBUG lightning_gossipd(7862): REPLY WIRE_GOSSIP_GETCHANNELS_REPLY with 0 fds
+2019-10-29T12:12:04.789Z DEBUG lightning_gossipd(7862): REPLY WIRE_GOSSIP_GETCHANNELS_REPLY with 0 fds
+2019-10-29T12:12:04.790Z DEBUG lightning_gossipd(7862): Trying to find a route from (me) to 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 for 43994003msat
+2019-10-29T12:12:04.790Z DEBUG lightning_gossipd(7862): REPLY WIRE_GOSSIP_GETROUTE_REPLY with 0 fds
+2019-10-29T12:12:04.790Z INFO lightningd(7847): Sending 43994003msat over 1 hops to deliver 43994003msat
+2019-10-29T12:12:04.790Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: NEW:: HTLC LOCAL 0 = SENT_ADD_HTLC/RCVD_ADD_HTLC 
+2019-10-29T12:12:04.790Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Adding HTLC 0 amount=43994003msat cltv=155 gave CHANNEL_ERR_ADD_OK
+2019-10-29T12:12:04.790Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_UPDATE_ADD_HTLC
+2019-10-29T12:12:04.790Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: REPLY WIRE_CHANNEL_OFFER_HTLC_REPLY with 0 fds
+2019-10-29T12:12:04.802Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Trying commit
+2019-10-29T12:12:04.802Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: SENT_ADD_HTLC->SENT_ADD_COMMIT
+2019-10-29T12:12:04.802Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc added REMOTE: local 100000000msat remote 0msat
+2019-10-29T12:12:04.802Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: -> local 56005997msat remote 0msat
+2019-10-29T12:12:04.803Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: sending_commit: HTLC LOCAL 0 = SENT_ADD_COMMIT/RCVD_ADD_COMMIT 
+2019-10-29T12:12:04.804Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {full_channel} darosior       side : remote  our_bp : 02903a690a684a85b5a833d0c7a03d787da789b3a158ed804723009426d1a0c3d8, their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 03f2694383cd83694cac06b4d2958f596c22dfba65c9e587889bb40721ee779af5, payment_key : 031a0ba700ffd62e30ab9558786831b3138358ab292cc372d6a145359ea613083c
+2019-10-29T12:12:04.805Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {commit_tx} darosior         payment_key : 031a0ba700ffd62e30ab9558786831b3138358ab292cc372d6a145359ea613083c
+2019-10-29T12:12:04.806Z DEBUG lightning_hsmd(7860): Client: Received message 19 from client
+2019-10-29T12:12:04.806Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Creating commit_sig signature 1 304402203b70a28abba09591bb83c522a5ec41efe3796c4ff02e48abecb9b53d4db3414402202a8bf54ff6965dcedd7c3510d669bf76e7b011b2efc539872da7b8cb7498d14501 for tx 02000000010f0b45565088106c211022fcd0f41e5825f5ed5596cab619d8234943a651bad70000000000a9fc758002daab00000000000022002087b38d966ab2e72f5d83dd7f1340bea7a14dd92a05a31cf34d1c218455e0ade5e3d9000000000000160014915e903a5f4e8794a3bc01288d093bb988956a6bca1c8420 wscript 5221023a37e67a83a15d3fe7bf9bfc08137208330b88886a1b118a2f6f9d6d9a830bad2103d47f95a11ed97624e57039939badf36edc37305c2de4e237820d7b18ad26005052ae key 03d47f95a11ed97624e57039939badf36edc37305c2de4e237820d7b18ad260050
+2019-10-29T12:12:04.807Z DEBUG lightning_hsmd(7860): Client: Received message 20 from client
+2019-10-29T12:12:04.808Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Creating HTLC signature 3045022100cdb53c1715c5db7173888c4c1d5c5046e36238fd89a22b8fd85f0c6b9c4855e402203524a8d1c99d0bddbad96599448a5f7cb9a526aa7f7353685692c4b428ac24d801 for tx 0200000001a19840e1fd694a6da2b222c1bff61c2c583dce1fd060683aa0872645151732c60000000000000000000129ab0000000000002200209e03d04278db6cbc4abda1393fb21d7b6923f14309be1df6023ed758604f00bc00000000 wscript 76a914a7fc70bcf2407d6336ca1ee9ca7f8320a05130748763ac672102772be4e23ecf7ada56df8f33e460564988e807d08b4722d75a24355443d6b6037c8201208763a9148e97783d14552b05f857d74243515d484b32b8ed88527c2102e204d5aa62e3fe49b54aa25b92f6deacfe8b53ced54fa06d40b42ab076c4a98c52ae6775029b00b175ac6868 key 02772be4e23ecf7ada56df8f33e460564988e807d08b4722d75a24355443d6b603
+2019-10-29T12:12:04.808Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Telling master we're about to commit...
+2019-10-29T12:12:04.808Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1020
+2019-10-29T12:12:04.810Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 SENT_ADD_HTLC->SENT_ADD_COMMIT
+2019-10-29T12:12:04.815Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1120
+2019-10-29T12:12:04.816Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.816Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending commit_sig with 1 htlc sigs
+2019-10-29T12:12:04.816Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_COMMITMENT_SIGNED
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_REVOKE_AND_ACK
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received revoke_and_ack
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: SENT_ADD_COMMIT->RCVD_ADD_REVOCATION
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: rcvd_revoke_and_ack: HTLC LOCAL 0 = RCVD_ADD_REVOCATION/SENT_ADD_REVOCATION 
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Commits outstanding after recv revoke_and_ack
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC 0[LOCAL] => RCVD_ADD_REVOCATION
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1022
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: got revoke 0: 1 changed
+2019-10-29T12:12:04.826Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 SENT_ADD_COMMIT->RCVD_ADD_REVOCATION
+2019-10-29T12:12:04.831Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1122
+2019-10-29T12:12:04.831Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.831Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: revoke_and_ack LOCAL: remote_per_commit = 03c075d4b16aff97bfbe1697a7693e28ad0beca24a9069da1f2e57d76f6a9bf0ef, old_remote_per_commit = 03f2694383cd83694cac06b4d2958f596c22dfba65c9e587889bb40721ee779af5
+2019-10-29T12:12:04.836Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Trying commit
+2019-10-29T12:12:04.836Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Can't send commit: nothing to send
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_COMMITMENT_SIGNED
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received commit
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: RCVD_ADD_REVOCATION->RCVD_ADD_ACK_COMMIT
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc added LOCAL: local 100000000msat remote 0msat
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: -> local 56005997msat remote 0msat
+2019-10-29T12:12:04.849Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: rcvd_commit: HTLC LOCAL 0 = RCVD_ADD_ACK_COMMIT/SENT_ADD_ACK_COMMIT 
+2019-10-29T12:12:04.851Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {full_channel} darosior       side : local  our_bp : 02903a690a684a85b5a833d0c7a03d787da789b3a158ed804723009426d1a0c3d8, their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 0300440ea672af18dc3cf6b1baf8fa273433b6372c4922202f000595f019c0aacd, payment_key : 02c89f3fdf4e646d6da912d5d3aba8a746d22fece28a96b7bc6e2743780a07a666
+2019-10-29T12:12:04.851Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {commit_tx} darosior         payment_key : 02c89f3fdf4e646d6da912d5d3aba8a746d22fece28a96b7bc6e2743780a07a666
+2019-10-29T12:12:04.853Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {channeld} darosior         their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 0300440ea672af18dc3cf6b1baf8fa273433b6372c4922202f000595f019c0aacd, payment_key : 02c89f3fdf4e646d6da912d5d3aba8a746d22fece28a96b7bc6e2743780a07a666
+2019-10-29T12:12:04.854Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {channeld remote_commit} darosior         their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 03c075d4b16aff97bfbe1697a7693e28ad0beca24a9069da1f2e57d76f6a9bf0ef, payment_key : 0339c88c9b8c3e1c601327f24d53bc1c043ba497e02045459abf2491fe650ea0d5
+2019-10-29T12:12:04.855Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Derived key 0350e3959d7b7277ebd75cf6ed1c46be8b5990c95fce074edd825cfbbfa6060559 from basepoint 03a6d15b1ade6d47b108b08a95b4200e431395d3270c01652d9b307684d4db6377, point 0300440ea672af18dc3cf6b1baf8fa273433b6372c4922202f000595f019c0aacd
+2019-10-29T12:12:04.855Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received commit_sig with 1 htlc sigs
+2019-10-29T12:12:04.856Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1021
+2019-10-29T12:12:04.856Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: got commitsig 1: feerate 253, 0 added, 0 fulfilled, 0 failed, 1 changed
+2019-10-29T12:12:04.856Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 RCVD_ADD_REVOCATION->RCVD_ADD_ACK_COMMIT
+2019-10-29T12:12:04.856Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 RCVD_ADD_ACK_COMMIT->SENT_ADD_ACK_REVOCATION
+2019-10-29T12:12:04.862Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1121
+2019-10-29T12:12:04.862Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.863Z DEBUG lightning_hsmd(7860): Client: Received message 18 from client
+2019-10-29T12:12:04.863Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending revoke_and_ack
+2019-10-29T12:12:04.863Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: RCVD_ADD_ACK_COMMIT->SENT_ADD_ACK_REVOCATION
+2019-10-29T12:12:04.863Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: sending_revoke_and_ack: HTLC LOCAL 0 = SENT_ADD_ACK_REVOCATION/RCVD_ADD_ACK_REVOCATION 
+2019-10-29T12:12:04.864Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_REVOKE_AND_ACK
+2019-10-29T12:12:04.871Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_UPDATE_FULFILL_HTLC
+2019-10-29T12:12:04.872Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: FULFILL:: HTLC LOCAL 0 = RCVD_REMOVE_HTLC/SENT_REMOVE_HTLC FULFILLED
+2019-10-29T12:12:04.882Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Trying commit
+2019-10-29T12:12:04.882Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Can't send commit: nothing to send
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_COMMITMENT_SIGNED
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received commit
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: RCVD_REMOVE_HTLC->RCVD_REMOVE_COMMIT
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc added LOCAL: local 56005997msat remote 0msat
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: -> local 56005997msat remote 43994003msat
+2019-10-29T12:12:04.914Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: rcvd_commit: HTLC LOCAL 0 = RCVD_REMOVE_COMMIT/SENT_REMOVE_COMMIT FULFILLED
+2019-10-29T12:12:04.916Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {full_channel} darosior       side : local  our_bp : 02903a690a684a85b5a833d0c7a03d787da789b3a158ed804723009426d1a0c3d8, their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 02e7961d3e5ff35e1d8a16e28517124cb76abdb47ffb2dee8637ac3811e1520c9a, payment_key : 02096aecd311da53f668baf0de52654fe901135d338523fc1e8cb95fa09acdf37b
+2019-10-29T12:12:04.916Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {commit_tx} darosior         payment_key : 02096aecd311da53f668baf0de52654fe901135d338523fc1e8cb95fa09acdf37b
+2019-10-29T12:12:04.918Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {channeld} darosior         their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 02e7961d3e5ff35e1d8a16e28517124cb76abdb47ffb2dee8637ac3811e1520c9a, payment_key : 02096aecd311da53f668baf0de52654fe901135d338523fc1e8cb95fa09acdf37b
+2019-10-29T12:12:04.920Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {channeld remote_commit} darosior         their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 03c075d4b16aff97bfbe1697a7693e28ad0beca24a9069da1f2e57d76f6a9bf0ef, payment_key : 0339c88c9b8c3e1c601327f24d53bc1c043ba497e02045459abf2491fe650ea0d5
+2019-10-29T12:12:04.920Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Derived key 03d63878c01448dddbbc551b593e9aff10342fe08eb02d4d199652741447f548d1 from basepoint 03a6d15b1ade6d47b108b08a95b4200e431395d3270c01652d9b307684d4db6377, point 02e7961d3e5ff35e1d8a16e28517124cb76abdb47ffb2dee8637ac3811e1520c9a
+2019-10-29T12:12:04.920Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received commit_sig with 0 htlc sigs
+2019-10-29T12:12:04.920Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1021
+2019-10-29T12:12:04.921Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: got commitsig 2: feerate 253, 0 added, 1 fulfilled, 0 failed, 0 changed
+2019-10-29T12:12:04.921Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 SENT_ADD_ACK_REVOCATION->RCVD_REMOVE_COMMIT
+2019-10-29T12:12:04.922Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 RCVD_REMOVE_COMMIT->SENT_REMOVE_REVOCATION
+2019-10-29T12:12:04.928Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1121
+2019-10-29T12:12:04.928Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.929Z DEBUG lightning_hsmd(7860): Client: Received message 18 from client
+2019-10-29T12:12:04.929Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending revoke_and_ack
+2019-10-29T12:12:04.929Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: RCVD_REMOVE_COMMIT->SENT_REMOVE_REVOCATION
+2019-10-29T12:12:04.929Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: sending_revoke_and_ack: HTLC LOCAL 0 = SENT_REMOVE_REVOCATION/RCVD_REMOVE_REVOCATION FULFILLED
+2019-10-29T12:12:04.929Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: revoke_and_ack made pending: commit timer
+2019-10-29T12:12:04.930Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_REVOKE_AND_ACK
+2019-10-29T12:12:04.939Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Trying commit
+2019-10-29T12:12:04.939Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: SENT_REMOVE_REVOCATION->SENT_REMOVE_ACK_COMMIT
+2019-10-29T12:12:04.940Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc added REMOTE: local 56005997msat remote 0msat
+2019-10-29T12:12:04.940Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: -> local 56005997msat remote 43994003msat
+2019-10-29T12:12:04.940Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: sending_commit: HTLC LOCAL 0 = SENT_REMOVE_ACK_COMMIT/RCVD_REMOVE_ACK_COMMIT FULFILLED
+2019-10-29T12:12:04.943Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {full_channel} darosior       side : remote  our_bp : 02903a690a684a85b5a833d0c7a03d787da789b3a158ed804723009426d1a0c3d8, their_bp : 021e4c439c567e567be9682855e4ccc32088939fd07c632c8e3f83819f5b724b4c, commit_point : 03c075d4b16aff97bfbe1697a7693e28ad0beca24a9069da1f2e57d76f6a9bf0ef, payment_key : 0344a6ec83ea81b5124b1fa66c0bbfa88629bebbb0d4bc325e72955d24dfdc58a8
+2019-10-29T12:12:04.943Z UNUSUAL lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: {commit_tx} darosior         payment_key : 0344a6ec83ea81b5124b1fa66c0bbfa88629bebbb0d4bc325e72955d24dfdc58a8
+2019-10-29T12:12:04.944Z DEBUG lightning_hsmd(7860): Client: Received message 19 from client
+2019-10-29T12:12:04.944Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Creating commit_sig signature 2 30450221009876b8af9f212af58ad55f163a5cdc8bc66dc0c6f8602053aeedcec7803e87ae022053fefcdb385545dc8d83db9c040c2c06d95f6104cb026dc6802a686aec33be9301 for tx 02000000010f0b45565088106c211022fcd0f41e5825f5ed5596cab619d8234943a651bad70000000000a9fc758002daab000000000000220020b24192201f27e40c1a03b208ef1a27b09018cb6438bafe48a282f75c843df3030eda000000000000160014851b0c6a1611d2631aace7c8e7b95ade3136f33ec91c8420 wscript 5221023a37e67a83a15d3fe7bf9bfc08137208330b88886a1b118a2f6f9d6d9a830bad2103d47f95a11ed97624e57039939badf36edc37305c2de4e237820d7b18ad26005052ae key 03d47f95a11ed97624e57039939badf36edc37305c2de4e237820d7b18ad260050
+2019-10-29T12:12:04.944Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Telling master we're about to commit...
+2019-10-29T12:12:04.944Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1020
+2019-10-29T12:12:04.944Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 SENT_REMOVE_REVOCATION->SENT_REMOVE_ACK_COMMIT
+2019-10-29T12:12:04.950Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1120
+2019-10-29T12:12:04.951Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.951Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending commit_sig with 0 htlc sigs
+2019-10-29T12:12:04.951Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_out WIRE_COMMITMENT_SIGNED
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: peer_in WIRE_REVOKE_AND_ACK
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Received revoke_and_ack
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: htlc 0: SENT_REMOVE_ACK_COMMIT->RCVD_REMOVE_ACK_REVOCATION
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: rcvd_revoke_and_ack: HTLC LOCAL 0 = RCVD_REMOVE_ACK_REVOCATION/SENT_REMOVE_ACK_REVOCATION FULFILLED
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: No commits outstanding after recv revoke_and_ack
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC 0[LOCAL] => RCVD_REMOVE_ACK_REVOCATION
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Sending master 1022
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: got revoke 1: 1 changed
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: HTLC out 0 SENT_REMOVE_ACK_COMMIT->RCVD_REMOVE_ACK_REVOCATION
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Removing out HTLC 0 state RCVD_REMOVE_ACK_REVOCATION FULFILLED
+2019-10-29T12:12:04.980Z DEBUG lightningd(7847): 03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Balance 100000000msat -> 56005997msat
+2019-10-29T12:12:04.983Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: ... , awaiting 1122
+2019-10-29T12:12:04.983Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Got it!
+2019-10-29T12:12:04.983Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: revoke_and_ack LOCAL: remote_per_commit = 0217b05394866205f9d7b37bb32897c4f84a0fe868ff8d7098df76422570471d48, old_remote_per_commit = 03c075d4b16aff97bfbe1697a7693e28ad0beca24a9069da1f2e57d76f6a9bf0ef
+2019-10-29T12:12:04.983Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Trying commit
+2019-10-29T12:12:04.983Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Can't send commit: nothing to send
+2019-10-29T12:12:04.999Z UNUSUAL lightningd(7847): JSON-RPC shutdown
+2019-10-29T12:12:04.999Z DEBUG lightningd(7847):jcon fd 4: Abandoning command stop
+2019-10-29T12:12:04.999Z DEBUG lightning_connectd(7861): Shutting down
+2019-10-29T12:12:04.999Z DEBUG lightning_gossipd(7862): Shutting down
+2019-10-29T12:12:04.999Z DEBUG lightning_hsmd(7860): Shutting down
+2019-10-29T12:12:04.999Z DEBUG lightningd(7847): lightning_channeld-03dd273cb30592957cc8240379267b24c1ddf3caae356144eb33aaf94ea18fcfe1 chan #1: Status closed, but not exited. Killing
+2019-10-29T12:12:05.000Z DEBUG lightningd(7847): Command returned result after jcon close

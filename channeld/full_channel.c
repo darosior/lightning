@@ -277,6 +277,13 @@ struct bitcoin_tx **channel_txs(const tal_t *ctx,
 			   &keyset))
 		return NULL;
 
+	status_unusual("{full_channel} darosior       side : %s  our_bp : %s, their_bp : %s, commit_point : %s, payment_key : %s",
+			side == LOCAL ? "local" : "remote",
+			type_to_string(tmpctx, struct pubkey, &channel->basepoints[LOCAL].payment),
+			type_to_string(tmpctx, struct pubkey, &channel->basepoints[REMOTE].payment),
+			type_to_string(tmpctx, struct pubkey, per_commitment_point),
+			type_to_string(tmpctx, struct pubkey, &keyset.other_payment_key));
+
 	/* Figure out what @side will already be committed to. */
 	gather_htlcs(ctx, channel, side, &committed, NULL, NULL);
 

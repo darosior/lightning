@@ -304,9 +304,11 @@ static int guess_commitment(const char *address, struct node_id *node_id,
                             u64 depth, char *hsm_secret_path, char *passwd)
 {
 	struct sha256 shaseed;
-	struct secret hsm_secret, channel_seed, basepoint_secret;
+	struct secret hsm_secret, channel_seed;
 	struct privkey payment_privkey;
-	struct pubkey per_commitment_point, basepoint, payment_pubkey;
+	struct pubkey per_commitment_point, payment_pubkey;
+	struct basepoints basepoints;
+	struct secrets secrets;
 	struct ripemd160 pubkeyhash;
 	/* We only support P2WPKH, hence 20 */
 	u8 goal_pubkeyhash[20];
@@ -329,25 +331,30 @@ static int guess_commitment(const char *address, struct node_id *node_id,
 	else
 		get_hsm_secret(&hsm_secret, hsm_secret_path);
 
-	for (u64 dbid = 0; ; dbid++) {
+	printf("goal hash : %s\n",
+			       tal_hexstr(tmpctx, goal_pubkeyhash, 20));
+	for (u64 dbid = 1; dbid == 1; dbid++) {
+		printf("#%"PRIu64"\n", dbid);
 		get_channel_seed(&channel_seed, node_id, dbid, &hsm_secret);
-		if (!derive_payment_basepoint(&channel_seed,
-		                              &basepoint, &basepoint_secret))
+		if (!derive_basepoints(&channel_seed, NULL,
+		                              &basepoints, &secrets, NULL))
 			errx(ERROR_KEYDERIV, "Could not derive basepoints for dbid %"PRIu64
 			                     " and channel seed %s.", dbid,
 			                     type_to_string(tmpctx,
 			                                    struct secret, &channel_seed));
 
 		/* If we specified option_static_remotekey, this is just the basepoint ! */
-		pubkey_to_hash160(&basepoint, &pubkeyhash);
+		pubkey_to_hash160(&basepoints.payment, &pubkeyhash);
+		printf("pubkey hash : %s\n",
+			       tal_hexstr(tmpctx, pubkeyhash.u.u8, 20));
 		if (memcmp(pubkeyhash.u.u8, goal_pubkeyhash, 20) == 0) {
 			printf("FOUND !\n");
 			printf("pubkey hash : %s\n",
 			       tal_hexstr(tmpctx, pubkeyhash.u.u8, 20));
 			printf("pubkey      : %s \n",
-			       type_to_string(tmpctx, struct pubkey, &basepoint));
+			       type_to_string(tmpctx, struct pubkey, &basepoints.payment));
 			printf("privkey     : %s \n",
-			       type_to_string(tmpctx, struct secret, &basepoint_secret));
+			       type_to_string(tmpctx, struct secret, &secrets.payment_basepoint_secret));
 			return 0;
 		}
 
@@ -363,6 +370,7 @@ static int guess_commitment(const char *address, struct node_id *node_id,
 				                     " dbid %"PRIu64" and shaseed %s.", i, dbid,
 				                     type_to_string(tmpctx,
 				                                    struct sha256, &shaseed));
+			/*
 			if (!derive_simple_privkey(&basepoint_secret, &basepoint,
 			                           &per_commitment_point, &payment_privkey))
 				errx(ERROR_KEYDERIV, "Could not derive payment privkey #%"PRIu64
@@ -377,9 +385,23 @@ static int guess_commitment(const char *address, struct node_id *node_id,
 				                     " for dbid %"PRIu64" and privkey %s.", i,
 				                     dbid,
 				                     type_to_string(tmpctx,
-				                                    struct privkey, &payment_privkey));
+				                                    struct privkey, &payment_privkey));*/
+
+			if (!derive_simple_key(&basepoints.payment, &per_commitment_point, &payment_pubkey))
+				return 1;
 
 			pubkey_to_hash160(&payment_pubkey, &pubkeyhash);
+			printf("pubkey hash : %s \n",
+				       tal_hexstr(tmpctx, pubkeyhash.u.u8, 20));
+			printf("	commit point #%"PRIu64": %s\n",
+				       i,
+				       type_to_string(tmpctx, struct pubkey, &per_commitment_point));
+			printf("		basepoint #%"PRIu64": %s\n",
+				       i,
+				       type_to_string(tmpctx, struct pubkey, &basepoints.payment));
+			printf("			payment pubkey #%"PRIu64": %s\n",
+				       i,
+				       type_to_string(tmpctx, struct pubkey, &payment_pubkey));
 			if (memcmp(pubkeyhash.u.u8, goal_pubkeyhash, 20) == 0) {
 				printf("FOUND !\n");
 				printf("commit point #%"PRIu64": %s\n",

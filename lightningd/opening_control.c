@@ -218,8 +218,8 @@ wallet_commit_channel(struct lightningd *ld,
 	 *        transactions
 	 */
 	/* i.e. We set it now for the channel permanently. */
-	option_static_remotekey
-		= feature_negotiated(uc->peer->features, OPT_STATIC_REMOTEKEY);
+	option_static_remotekey = false;
+		//= feature_negotiated(uc->peer->features, OPT_STATIC_REMOTEKEY);
 
 	channel = new_channel(uc->peer, uc->dbid,
 			      NULL, /* No shachain yet */
