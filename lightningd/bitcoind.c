@@ -279,6 +279,42 @@ static void remove_stopper(struct bitcoin_cli *bcli)
 	tal_free(bcli->stopper);
 }
 
+/* A plugin hook to ask a plugin for Bitcoin data. */
+struct bitcoin_data_hook_payload {
+	const char *cmd;
+	const char *buf_params;
+	const jsmntok_t *params;
+	bool (*process)(const char *buffer, const jsmntok_t *resulttok);
+};
+
+static void bitcoin_data_hook_serialize(struct bitcoin_data_hook_payload *p,
+                                        struct json_stream *s)
+{
+	json_object_start(s, "bitcoin_data");
+	json_add_string(s, "command", p->cmd);
+	json_add_tok(s, "params", p->params, p->buf_params);
+	json_object_end(s);
+}
+
+static void
+bitcoin_data_hook_callback(struct bitcoin_data_hook_payload *p,
+                           const char *buffer, const jsmntok_t *resulttok)
+{
+	const jsmntok_t *error_tok = json_get_member(buffer, resulttok, "error");
+	/* We can't recover from a bitcoind failure. */
+	if (error_tok)
+		fatal("Plugin error for bitcoind RPC request: %.*s",
+		      error_tok->end - error_tok->start, buffer + error_tok->start);
+
+	if (!p->process(buffer, resulttok))
+		fatal("Bad response from plugin to bitcoind RPC request.");
+}
+
+REGISTER_PLUGIN_HOOK(bitcoin_data, bitcoin_data_hook_callback,
+                     struct bitcoin_data_hook_payload *,
+                     bitcoin_data_hook_serialize,
+                     struct bitcoin_data_hook_payload *);
+
 /* If ctx is non-NULL, and is freed before we return, we don't call process().
  * process returns false() if it's a spurious error, and we should retry. */
 static void
