@@ -29,10 +29,6 @@ static u64 next_outreq_id;
  * struct json_command as it's good practice to have those const. */
 static STRMAP(const char *) usagemap;
 
-/* Timers */
-static struct timers timers;
-static size_t in_timer;
-
 bool deprecated_apis;
 
 const struct chainparams *chainparams;

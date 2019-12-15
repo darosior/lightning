@@ -17,6 +17,10 @@ struct plugin_conn;
 
 extern bool deprecated_apis;
 
+/* Timers */
+struct timers timers;
+size_t in_timer;
+
 enum plugin_restartability {
 	PLUGIN_STATIC,
 	PLUGIN_RESTARTABLE
