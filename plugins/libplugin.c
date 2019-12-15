@@ -8,6 +8,7 @@
 #include <ccan/tal/str/str.h>
 #include <ccan/timer/timer.h>
 #include <common/daemon.h>
+#include <common/memleak.h>
 #include <common/utils.h>
 #include <errno.h>
 #include <poll.h>
@@ -310,6 +311,13 @@ struct command_result *command_fail(struct command *cmd,
 	res = command_done_err(cmd, code, tal_vfmt(cmd, fmt, ap), NULL);
 	va_end(ap);
 	return res;
+}
+
+struct command_result *command_still_pending(struct command *cmd)
+{
+	//FIXME: maybe useless
+	notleak_with_children(cmd);
+	return &pending;
 }
 
 /* We invoke param for usage at registration time. */
