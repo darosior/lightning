@@ -6,7 +6,6 @@
 #include <ccan/read_write_all/read_write_all.h>
 #include <ccan/strmap/strmap.h>
 #include <ccan/tal/str/str.h>
-#include <ccan/timer/timer.h>
 #include <common/daemon.h>
 #include <common/utils.h>
 #include <errno.h>
@@ -28,10 +27,6 @@ static u64 next_outreq_id;
 /* Map from json command names to usage strings: we don't put this inside
  * struct json_command as it's good practice to have those const. */
 static STRMAP(const char *) usagemap;
-
-/* Timers */
-static struct timers timers;
-static size_t in_timer;
 
 bool deprecated_apis;
 

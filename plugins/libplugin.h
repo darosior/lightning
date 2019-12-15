@@ -4,6 +4,7 @@
 #include "config.h"
 
 #include <ccan/time/time.h>
+#include <ccan/timer/timer.h>
 #include <common/json.h>
 #include <common/json_command.h>
 #include <common/json_helpers.h>
@@ -16,6 +17,10 @@ struct json_out;
 struct plugin_conn;
 
 extern bool deprecated_apis;
+
+/* Timers */
+struct timers timers;
+size_t in_timer;
 
 enum plugin_restartability {
 	PLUGIN_STATIC,
