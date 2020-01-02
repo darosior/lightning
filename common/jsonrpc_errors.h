@@ -42,6 +42,9 @@
 #define FUNDING_BROADCAST_FAIL          303
 #define FUNDING_STILL_SYNCING_BITCOIN   304
 
+/* bitcoin-cli plugin errors */
+#define BCLI_ERROR                      400
+
 /* Errors from `invoice` command */
 #define INVOICE_LABEL_ALREADY_EXISTS	900
 #define INVOICE_PREIMAGE_ALREADY_EXISTS	901
