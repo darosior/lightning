@@ -756,25 +756,9 @@ static void wait_for_bitcoind(void)
 	tal_free(cmd);
 }
 
-/* Initialize the global context when handshake is done. */
 static void init(struct plugin_conn *conn, const char *buffer,
                  const jsmntok_t *config)
 {
-	bitcoind = tal(NULL, struct bitcoind);
-
-	bitcoind->cli = NULL;
-	bitcoind->datadir = NULL;
-	for (size_t i = 0; i < BITCOIND_NUM_PRIO; i++) {
-		bitcoind->num_requests[i] = 0;
-		list_head_init(&bitcoind->pending[i]);
-	}
-	bitcoind->error_count = 0;
-	bitcoind->retry_timeout = 60;
-	bitcoind->rpcuser = NULL;
-	bitcoind->rpcpass = NULL;
-	bitcoind->rpcconnect = NULL;
-	bitcoind->rpcport = NULL;
-
 	wait_for_bitcoind();
 	plugin_log(LOG_INFORM, "bitcoin-cli initialized and connected to bitcoind.");
 }
@@ -822,7 +806,53 @@ int main(int argc, char *argv[])
 {
 	setup_locale();
 
+	/* Initialize our global context object here to handle startup options. */
+	bitcoind = tal(NULL, struct bitcoind);
+
+	bitcoind->cli = NULL;
+	bitcoind->datadir = NULL;
+	for (size_t i = 0; i < BITCOIND_NUM_PRIO; i++) {
+		bitcoind->num_requests[i] = 0;
+		list_head_init(&bitcoind->pending[i]);
+	}
+	bitcoind->error_count = 0;
+	bitcoind->retry_timeout = 60;
+	bitcoind->rpcuser = NULL;
+	bitcoind->rpcpass = NULL;
+	bitcoind->rpcconnect = NULL;
+	bitcoind->rpcport = NULL;
+
 	/* FIXME: handle bitcoind options at init */
 	plugin_main(argv, init, PLUGIN_STATIC, commands, ARRAY_SIZE(commands),
-	            NULL, 0, NULL, 0, NULL);
+		    NULL, 0, NULL, 0,
+		    plugin_option("bitcoin-datadir",
+				  "string",
+				  "-datadir arg for bitcoin-cli",
+				  charp_option, &bitcoind->datadir),
+		    plugin_option("bitcoin-cli",
+				  "string",
+				  "bitcoin-cli pathname",
+				  charp_option, &bitcoind->cli),
+		    plugin_option("bitcoin-rpcuser",
+				  "string",
+				  "bitcoind RPC username",
+				  charp_option, &bitcoind->rpcuser),
+		    plugin_option("bitcoin-rpcpassword",
+				  "string",
+				  "bitcoind RPC password",
+				  charp_option, &bitcoind->rpcpass),
+		    plugin_option("bitcoin-rpcconnect",
+				  "string",
+				  "bitcoind RPC host to connect to",
+				  charp_option, &bitcoind->rpcconnect),
+		    plugin_option("bitcoin-rpcport",
+				  "string",
+				  "bitcoind RPC host's port",
+				  charp_option, &bitcoind->rpcport),
+		    plugin_option("bitcoin-retry_timeout",
+				  "string",
+				  "how long to keep retrying to contact bitcoind"
+				  " before fatally exiting",
+				  u64_option, &bitcoind->retry_timeout),
+		    NULL);
 }
