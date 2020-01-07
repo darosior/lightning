@@ -576,16 +576,18 @@ static struct command_result *handle_init(struct command *init_cmd,
 	addr.sun_family = AF_UNIX;
 
 	if (connect(rpc_conn.fd, (struct sockaddr *)&addr, sizeof(addr)) != 0)
-		plugin_err("Connecting to '%.*s': %s",
+		plugin_log(LOG_UNUSUAL, "Could not connect to '%.*s': %s",
 			   rpctok->end - rpctok->start, buf + rpctok->start,
 			   strerror(errno));
+	else {
+		param_obj = json_out_obj(NULL, "config", "allow-deprecated-apis");
+		deprecated_apis = streq(rpc_delve(tmpctx, "listconfigs",
+						  take(param_obj),
+						  &rpc_conn,
+						  ".allow-deprecated-apis"),
+					"true");
+	}
 
-	param_obj = json_out_obj(NULL, "config", "allow-deprecated-apis");
-	deprecated_apis = streq(rpc_delve(tmpctx, "listconfigs",
-					  take(param_obj),
-					  &rpc_conn,
-					  ".allow-deprecated-apis"),
-				  "true");
 	opttok = json_get_member(buf, params, "options");
 	json_for_each_obj(i, t, opttok) {
 		char *opt = json_strdup(NULL, buf, t);
