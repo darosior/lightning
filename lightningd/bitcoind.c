@@ -991,6 +991,7 @@ static bool process_getblockchaininfo(struct bitcoin_cli *bcli)
 
 static void destroy_bitcoind(struct bitcoind *bitcoind)
 {
+	strmap_clear(&bitcoind->pluginsmap);
 	/* Suppresses the callbacks from bcli_finished as we free conns. */
 	bitcoind->shutdown = true;
 }
@@ -1126,6 +1127,7 @@ struct bitcoind *new_bitcoind(const tal_t *ctx,
 {
 	struct bitcoind *bitcoind = tal(ctx, struct bitcoind);
 
+	strmap_init(&bitcoind->pluginsmap);
 	bitcoind->cli = NULL;
 	bitcoind->datadir = NULL;
 	bitcoind->ld = ld;
@@ -1147,19 +1149,21 @@ struct bitcoind *new_bitcoind(const tal_t *ctx,
 	return bitcoind;
 }
 
-bool bitcoind_check_commands(struct lightningd *ld)
+bool bitcoind_check_commands(struct bitcoind *bitcoind)
 {
 	struct plugin *p;
 	const char *methods[] = {"getchaininfo", "getrawblockbyheight",
 			        "sendrawtransaction", "gettxout", "getfeerate"};
 	size_t methods_counter = 0;
 
-	list_for_each(&ld->plugins->plugins, p, list) {
+	list_for_each(&bitcoind->ld->plugins->plugins, p, list) {
 		for (size_t j = 0; j < ARRAY_SIZE(methods); j++) {
 			for (size_t k = 0; k < tal_count(p->methods); k++) {
-				if (streq(methods[j], p->methods[k])
-				    && ++methods_counter == ARRAY_SIZE(methods))
-					return true;
+				if (streq(methods[j], p->methods[k])) {
+					strmap_add(&bitcoind->pluginsmap, methods[j], p);
+					if (++methods_counter == ARRAY_SIZE(methods))
+						return true;
+				}
 			}
 		}
 	}

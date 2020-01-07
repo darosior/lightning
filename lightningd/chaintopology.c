@@ -954,7 +954,7 @@ void setup_topology(struct chain_topology *topo,
 	topo->min_blockheight = min_blockheight;
 	topo->max_blockheight = max_blockheight;
 
-	if (!bitcoind_check_commands(topo->ld)) {
+	if (!bitcoind_check_commands(topo->bitcoind)) {
 		fprintf(stderr, "Could not access all commands required to talk"
 				" to bitcoind, is a Bitcoin plugin (by default "
 				"plugins/bcli) registered ?");
