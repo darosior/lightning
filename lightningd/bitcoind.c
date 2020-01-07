@@ -7,10 +7,12 @@
 #include "bitcoind.h"
 #include "lightningd.h"
 #include "log.h"
+#include <ccan/array_size/array_size.h>
 #include <ccan/cast/cast.h>
 #include <ccan/io/io.h>
 #include <ccan/pipecmd/pipecmd.h>
 #include <ccan/str/hex/hex.h>
+#include <ccan/str/str.h>
 #include <ccan/take/take.h>
 #include <ccan/tal/grab_file/grab_file.h>
 #include <ccan/tal/path/path.h>
@@ -22,6 +24,7 @@
 #include <errno.h>
 #include <inttypes.h>
 #include <lightningd/chaintopology.h>
+#include <lightningd/plugin.h>
 
 /* Bitcoind's web server has a default of 4 threads, with queue depth 16.
  * It will *fail* rather than queue beyond that, so we must not stress it!
@@ -1142,4 +1145,24 @@ struct bitcoind *new_bitcoind(const tal_t *ctx,
 	tal_add_destructor(bitcoind, destroy_bitcoind);
 
 	return bitcoind;
+}
+
+bool bitcoind_check_commands(struct lightningd *ld)
+{
+	struct plugin *p;
+	const char *methods[] = {"getchaininfo", "getrawblockbyheight",
+			        "sendrawtransaction", "gettxout", "getfeerate"};
+	size_t methods_counter = 0;
+
+	list_for_each(&ld->plugins->plugins, p, list) {
+		for (size_t j = 0; j < ARRAY_SIZE(methods); j++) {
+			for (size_t k = 0; k < tal_count(p->methods); k++) {
+				if (streq(methods[j], p->methods[k])
+				    && ++methods_counter == ARRAY_SIZE(methods))
+					return true;
+			}
+		}
+	}
+
+	return false;
 }
