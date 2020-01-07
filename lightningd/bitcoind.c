@@ -1149,6 +1149,43 @@ struct bitcoind *new_bitcoind(const tal_t *ctx,
 	return bitcoind;
 }
 
+static void plugin_config_cb(const char *buffer,
+			     const jsmntok_t *toks,
+			     const jsmntok_t *idtok,
+			     struct plugin *plugin)
+{
+	plugin->plugin_state = CONFIGURED;
+	io_break(plugin);
+}
+
+static void config_plugin(struct plugin *plugin)
+{
+	struct jsonrpc_request *req;
+
+	req = jsonrpc_request_start(plugin, "init", plugin->log,
+	                            plugin_config_cb, plugin);
+	plugin_populate_init_request(plugin, req);
+	jsonrpc_request_end(req);
+	plugin_request_send(plugin, req);
+	io_loop_with_timers(plugin->plugins->ld);
+}
+
+static void wait_plugin(struct bitcoind *bitcoind, const char *method,
+			struct plugin *p)
+{
+	/* We need our Bitcoin backend to be initialized, but the plugins have
+	 * not yet been started at this point.
+	 * So send `init` to each plugin which registered for a Bitcoin method
+	 * and wait for its response, which we take as an ACK that it is
+	 * operational (i.e. bcli will wait for `bitcoind` to be warmed up
+	 * before responding to `init`).
+	 * Note that lightningd/plugin will not send `init` to an already
+	 * configured plugin. */
+	if (p->plugin_state != CONFIGURED)
+		config_plugin(p);
+	strmap_add(&bitcoind->pluginsmap, method, p);
+}
+
 bool bitcoind_check_commands(struct bitcoind *bitcoind)
 {
 	struct plugin *p;
@@ -1160,7 +1197,7 @@ bool bitcoind_check_commands(struct bitcoind *bitcoind)
 		for (size_t j = 0; j < ARRAY_SIZE(methods); j++) {
 			for (size_t k = 0; k < tal_count(p->methods); k++) {
 				if (streq(methods[j], p->methods[k])) {
-					strmap_add(&bitcoind->pluginsmap, methods[j], p);
+					wait_plugin(bitcoind, methods[j], p);
 					if (++methods_counter == ARRAY_SIZE(methods))
 						return true;
 				}
