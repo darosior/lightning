@@ -127,13 +127,13 @@ struct txs_to_broadcast {
 
 /* We just sent the last entry in txs[].  Shrink and send the next last. */
 static void broadcast_remainder(struct bitcoind *bitcoind,
-				int exitstatus, const char *msg,
+				bool success, const char *msg,
 				struct txs_to_broadcast *txs)
 {
 	/* These are expected. */
 	if (strstr(msg, "txn-mempool-conflict")
 	    || strstr(msg, "transaction already in block chain")
-	    || exitstatus)
+	    || !success)
 		log_debug(bitcoind->log,
 			  "Expected error broadcasting tx %s: %s",
 			  txs->txs[txs->cursor], msg);
@@ -190,7 +190,7 @@ static void clear_otx_channel(struct channel *channel, struct outgoing_tx *otx)
 }
 
 static void broadcast_done(struct bitcoind *bitcoind,
-			   int exitstatus, const char *msg,
+			   bool success, const char *msg,
 			   struct outgoing_tx *otx)
 {
 	/* Channel gone?  Stop. */
@@ -203,7 +203,7 @@ static void broadcast_done(struct bitcoind *bitcoind,
 	tal_del_destructor2(otx->channel, clear_otx_channel, otx);
 
 	if (otx->failed_or_success) {
-		otx->failed_or_success(otx->channel, exitstatus, msg);
+		otx->failed_or_success(otx->channel, success, msg);
 		tal_free(otx);
 	} else {
 		/* For continual rebroadcasting, until channel freed. */
@@ -216,7 +216,7 @@ static void broadcast_done(struct bitcoind *bitcoind,
 void broadcast_tx(struct chain_topology *topo,
 		  struct channel *channel, const struct bitcoin_tx *tx,
 		  void (*failed_or_success)(struct channel *channel,
-				 int exitstatus, const char *err))
+					    bool success, const char *err))
 {
 	/* Channel might vanish: topo owns it to start with. */
 	struct outgoing_tx *otx = tal(topo, struct outgoing_tx);
