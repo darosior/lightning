@@ -766,7 +766,7 @@ static void gettxout_callback(const char *buf, const jsmntok_t *toks,
 	tal_free(call);
 }
 
-void bitcoind_gettxout(struct bitcoind *bitcoind,
+void bitcoind_gettxout_(struct bitcoind *bitcoind,
 		       const struct bitcoin_txid *txid, const u32 outnum,
 		       void (*cb)(struct bitcoind *bitcoind,
 				  const struct bitcoin_tx_output *txout,

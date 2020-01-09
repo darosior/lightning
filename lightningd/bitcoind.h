@@ -166,12 +166,19 @@ void bitcoind_getrawblockbyheight_(struct bitcoind *bitcoind,
 							  struct bitcoin_block *),\
 				      (arg))
 
-void bitcoind_gettxout(struct bitcoind *bitcoind,
-		       const struct bitcoin_txid *txid, const u32 outnum,
-		       void (*cb)(struct bitcoind *bitcoind,
-				  const struct bitcoin_tx_output *txout,
-				  void *arg),
-		       void *arg);
+void bitcoind_gettxout_(struct bitcoind *bitcoind,
+			const struct bitcoin_txid *txid, const u32 outnum,
+			void (*cb)(struct bitcoind *bitcoind,
+				   const struct bitcoin_tx_output *txout,
+				   void *arg),
+			void *arg);
+#define bitcoind_gettxout(bitcoind_, txid_, vout_, cb, arg)		\
+	bitcoind_gettxout_((bitcoind_), (txid_), (vout_),		\
+			   typesafe_cb_preargs(void, void *,		\
+					       (cb), (arg),		\
+					       struct bitcoind *,	\
+					       struct bitcoin_tx_output *),\
+			   (arg))
 
 void bitcoind_getclientversion(struct bitcoind *bitcoind);
 
