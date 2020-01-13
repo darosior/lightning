@@ -927,6 +927,8 @@ static void check_blockcount(struct chain_topology *topo, u32 blockcount)
 	wallet_blocks_rollback(topo->ld->wallet, topo->max_blockheight);
 	/* This may have unconfirmed txs: reconfirm as we add blocks. */
 	watch_for_utxo_reconfirmation(topo, topo->ld->wallet);
+
+	log_unusual(topo->log, "OK check_");
 }
 
 static void retry_check_chain(struct chain_topology *topo);

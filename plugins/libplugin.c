@@ -1,6 +1,7 @@
 #include <bitcoin/chainparams.h>
 #include <ccan/err/err.h>
 #include <ccan/intmap/intmap.h>
+#include <ccan/io/io.h>
 #include <ccan/json_out/json_out.h>
 #include <ccan/membuf/membuf.h>
 #include <ccan/read_write_all/read_write_all.h>
@@ -700,7 +701,7 @@ static void call_plugin_timer(struct plugin_conn *rpc, struct timer *timer)
 
 	in_timer++;
 	/* Free this if they don't. */
-	tal_steal(tmpctx, t);
+	//tal_steal(tmpctx, t);
 	t->cb();
 }
 
@@ -872,6 +873,7 @@ void plugin_main(char *argv[],
 		else
 			t = -1;
 
+		io_loop(NULL, NULL);
 		/* Otherwise, we poll. */
 		poll(fds, 2, t);
 

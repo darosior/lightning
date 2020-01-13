@@ -123,6 +123,7 @@ static struct io_plan *read_more(struct io_conn *conn, struct bitcoin_cli *bcli)
 	bcli->output_bytes += bcli->new_output;
 	if (bcli->output_bytes == tal_count(bcli->output))
 		tal_resize(&bcli->output, bcli->output_bytes * 2);
+	plugin_log(LOG_UNUSUAL, "Before read_partial");
 	return io_read_partial(conn, bcli->output + bcli->output_bytes,
 			       tal_count(bcli->output) - bcli->output_bytes,
 			       &bcli->new_output, read_more, bcli);
@@ -205,6 +206,8 @@ static void bcli_finished(struct io_conn *conn UNUSED, struct bitcoin_cli *bcli)
 	enum bitcoind_prio prio = bcli->prio;
 	u64 msec = time_to_msec(time_between(time_now(), bcli->start));
 
+	plugin_log(LOG_UNUSUAL, "Begining of bcli_finished.");
+
 	/* If it took over 10 seconds, that's rather strange. */
 	if (msec > 10000)
 		plugin_log(LOG_UNUSUAL, "bitcoin-cli: finished %s (%"PRIu64" ms)",
@@ -255,6 +258,8 @@ static void next_bcli(enum bitcoind_prio prio)
 	struct bitcoin_cli *bcli;
 	struct io_conn *conn;
 
+	plugin_log(LOG_UNUSUAL, "Begining of next_bcli.");
+
 	if (bitcoind->num_requests[prio] >= BITCOIND_MAX_PARALLEL)
 		return;
 
@@ -274,6 +279,8 @@ static void next_bcli(enum bitcoind_prio prio)
 	/* This lifetime is attached to bitcoind command fd */
 	conn = notleak(io_new_conn(bitcoind, bcli->fd, output_init, bcli));
 	io_set_finish(conn, bcli_finished, bcli);
+
+	plugin_log(LOG_UNUSUAL, "End of next_bcli.");
 }
 
 /* If stopper gets freed first, set process() to a noop. */
@@ -325,6 +332,7 @@ start_bitcoin_cli(const tal_t *ctx,
 
 	list_add_tail(&bitcoind->pending[bcli->prio], &bcli->list);
 	next_bcli(bcli->prio);
+	plugin_log(LOG_UNUSUAL, "End of start_bitcoin_cli.");
 }
 
 static struct command_result *process_gettxout(struct bitcoin_cli *bcli)
@@ -412,6 +420,8 @@ static struct command_result *process_getblockchaininfo(struct bitcoin_cli *bcli
 	char *chain;
 	u32 headers, blocks;
 	bool ibd;
+
+	plugin_log(LOG_UNUSUAL, "In process_getblockchaininfo");
 
 	tokens = json_parse_input(bcli, bcli->output, bcli->output_bytes,
 	                          &valid);
@@ -626,8 +636,12 @@ static struct command_result *getchaininfo(struct command *cmd,
 	if (!param(cmd, buf, toks, NULL))
 	    return command_param_failed();
 
+	plugin_log(LOG_UNUSUAL, "Getchaininfo called.");
+
 	start_bitcoin_cli(NULL, cmd, process_getblockchaininfo, false, BITCOIND_HIGH_PRIO,
 	                  "getblockchaininfo", NULL, NULL);
+
+	plugin_log(LOG_UNUSUAL, "Getchaininfo, before still_pending.");
 
 	return command_still_pending(cmd);
 }
