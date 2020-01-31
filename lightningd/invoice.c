@@ -162,10 +162,12 @@ static void invoice_payload_remove_set(struct htlc_set *set,
 	payload->set = NULL;
 }
 
-static bool hook_gives_failcode(const char *buffer,
+static bool hook_gives_failcode(struct log *log,
+				const char *buffer,
 				const jsmntok_t *toks,
 				enum onion_type *failcode)
 {
+	const jsmntok_t *resulttok;
 	const jsmntok_t *t;
 	unsigned int val;
 
@@ -173,9 +175,34 @@ static bool hook_gives_failcode(const char *buffer,
 	if (!buffer)
 		return false;
 
+	resulttok = json_get_member(buffer, toks, "result");
+	if (resulttok) {
+		if (json_tok_streq(buffer, resulttok, "continue")) {
+			return false;
+		} else if (json_tok_streq(buffer, resulttok, "reject")) {
+			*failcode = WIRE_INCORRECT_OR_UNKNOWN_PAYMENT_DETAILS;
+			return true;
+		} else
+			fatal("Invalid invoice_payment hook result: %.*s",
+			      toks[0].end - toks[0].start, buffer);
+	}
+
 	t = json_get_member(buffer, toks, "failure_code");
-	if (!t)
+	if (!t) {
+		/* FIXME: In the future, fatal if not deprecated_apis.  */
+		static bool warned = false;
+		if (!warned) {
+			warned = true;
+			log_unusual(log,
+				    "Plugin did not return object with "
+				    "'result' or 'failure_code' fields.  "
+				    "This is now deprecated and you should "
+				    "return {'result': 'continue' } or "
+				    "{'result': 'reject'} or "
+				    "{'failure_code': 42} instead.");
+		}
 		return false;
+	}
 
 	if (!json_to_number(buffer, t, &val))
 		fatal("Invalid invoice_payment_hook failure_code: %.*s",
@@ -223,7 +250,7 @@ invoice_payment_hook_cb(struct invoice_payment_hook_payload *payload,
 	}
 
 	/* Did we have a hook result? */
-	if (hook_gives_failcode(buffer, toks, &failcode)) {
+	if (hook_gives_failcode(ld->log, buffer, toks, &failcode)) {
 		htlc_set_fail(payload->set, failcode);
 		return;
 	}

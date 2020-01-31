@@ -1,8 +1,10 @@
 #include <ccan/io/io.h>
+#include <common/configdir.h>
 #include <common/memleak.h>
 #include <lightningd/jsonrpc.h>
 #include <lightningd/plugin_hook.h>
 #include <wallet/db.h>
+#include <wallet/db_common.h>
 
 /* Struct containing all the information needed to deserialize and
  * dispatch an eventual plugin_hook response. */
@@ -143,14 +145,28 @@ static void db_hook_response(const char *buffer, const jsmntok_t *toks,
 		fatal("Plugin returned an invalid response to the db_write "
 		      "hook: %s", buffer);
 
-	/* We expect result: True.  Anything else we abort. */
-	if (!json_to_bool(buffer, resulttok, &resp))
+	/* We expect result: True or result: { result: 'continue' }.
+	 * Anything else we abort.
+	 * FIXME: In the future, disable this path with deprecated_apis.
+	 */
+	if (json_to_bool(buffer, resulttok, &resp)) {
+		static bool warned = false;
+		/* If it fails, we must not commit to our db. */
+		if (!resp)
+			fatal("Plugin returned failed db_write: %s.", buffer);
+		if (!warned) {
+			warned = true;
+			log_unusual(ph_req->db->log,
+				    "Plugin returned 'true' to 'db_hook'.  "
+				    "This is now deprecated and you should "
+				    "return {'result': 'continue'} instead.");
+		}
+	} else if ((resulttok = json_get_member(buffer, resulttok, "result"))) {
+		if (!json_tok_streq(buffer, resulttok, "continue"))
+			fatal("Plugin returned failed db_write: %s.", buffer);
+	} else
 		fatal("Plugin returned an invalid result to the db_write "
 		      "hook: %s", buffer);
-
-	/* If it fails, we must not commit to our db. */
-	if (!resp)
-		fatal("Plugin returned failed db_write: %s.", buffer);
 
 	/* We're done, exit exclusive loop. */
 	io_break(ph_req);

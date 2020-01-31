@@ -668,6 +668,7 @@ rpc_command_hook_callback(struct rpc_command_hook_payload *p,
                           const char *buffer, const jsmntok_t *resulttok)
 {
 	const jsmntok_t *tok, *params, *custom_return, *tok_continue;
+	const jsmntok_t *innerresulttok;
 	struct json_stream *response;
 	bool exec;
 
@@ -679,10 +680,26 @@ rpc_command_hook_callback(struct rpc_command_hook_payload *p,
 	    return was_pending(command_exec(p->cmd->jcon, p->cmd, p->buffer,
 		                                p->request, params));
 	else {
+		/* FIXME: In the future disable this path if !deprected_apis.  */
 		tok_continue = json_get_member(buffer, resulttok, "continue");
-		if (tok_continue && json_to_bool(buffer, tok_continue, &exec) && exec)
+		if (tok_continue && json_to_bool(buffer, tok_continue, &exec) && exec) {
+			static bool warned = false;
+			if (!warned) {
+				warned = true;
+				log_unusual(p->cmd->ld->log,
+					    "Plugin returned 'continue' : true "
+					    "to rpc_command hook.  "
+					    "This is now deprecated and "
+					    "you should return with "
+					    "{'result': 'continue'} instead.");
+			}
 			return was_pending(command_exec(p->cmd->jcon, p->cmd, p->buffer,
 			                                p->request, params));
+		}
+		innerresulttok = json_get_member(buffer, resulttok, "result");
+		if (innerresulttok &&
+		    json_tok_streq(buffer, innerresulttok, "continue")) {
+		}
 	}
 
 	/* If the registered plugin did not respond with continue,
