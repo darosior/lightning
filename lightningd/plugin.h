@@ -42,7 +42,7 @@ struct plugin {
 	enum plugin_state plugin_state;
 
 	/* If this plugin can be restarted without restarting lightningd */
-	bool dynamic;
+	bool *dynamic;
 
 	/* Stuff we read */
 	char *buffer;
