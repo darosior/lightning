@@ -258,7 +258,7 @@ static struct command_result *waitsendpay_expired(struct command *cmd,
 	for (size_t i = 0; i < tal_count(pc->ps->attempts); i++) {
 		json_object_start(data, NULL);
 		if (pc->ps->attempts[i].route)
-			json_add_member(data, "route", false,
+			json_add_member(data, "route", false, "%s",
 					 pc->ps->attempts[i].route);
 		json_out_add_splice(data->jout, "failure",
 				    pc->ps->attempts[i].failure);
@@ -1404,13 +1404,13 @@ static void add_attempt(struct json_stream *ret,
 	}
 
 	if (attempt->route)
-		json_add_member(ret, "route", false, attempt->route);
+		json_add_member(ret, "route", false, "%s", attempt->route);
 
 	if (attempt->failure)
 		json_out_add_splice(ret->jout, "failure", attempt->failure);
 
 	if (attempt->result)
-		json_add_member(ret, "success", false, attempt->result);
+		json_add_member(ret, "success", false, "%s", attempt->result);
 
 	json_object_end(ret);
 }
