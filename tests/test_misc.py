@@ -2148,3 +2148,18 @@ def test_sendcustommsg(node_factory):
     l4.daemon.wait_for_log(
         r'Got a custom message {serialized} from peer {peer_id}'.format(
             serialized=serialized, peer_id=l2.info['id']))
+
+
+def test_getecdh(node_factory):
+    """
+    Test getecdh command.
+    """
+    l1 = node_factory.get_node()
+
+    # FIXME: Actually set the node to a specific privkey and
+    # compute the actual result with a specific point.
+    shared_secret = l1.rpc.getecdh("0266e4598d1d3c415f572a8488830b60f7e744ed9235eb0b1ba93283b315c03518")['shared_secret']
+
+    # Results in a DER-compressed point, 33 bytes (66 hex chars).
+    assert isinstance(shared_secret, str)
+    assert len(shared_secret) == 66
