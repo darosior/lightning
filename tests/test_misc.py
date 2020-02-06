@@ -11,6 +11,8 @@ from pyln.testing.utils import (
 )
 from ephemeral_port_reserve import reserve
 
+import binascii
+import hashlib
 import json
 import os
 import pytest
@@ -2154,12 +2156,22 @@ def test_getecdh(node_factory):
     """
     Test getecdh command.
     """
-    l1 = node_factory.get_node()
+    # Cf BOLT8 test vectors for Act one.
+    options = [{
+        "dev-force-privkey":
+        "1212121212121212121212121212121212121212121212121212121212121212",
+    }, {}]
+    l1, l2 = node_factory.get_nodes(2, opts=options)
 
-    # FIXME: Actually set the node to a specific privkey and
-    # compute the actual result with a specific point.
-    shared_secret = l1.rpc.getecdh("0266e4598d1d3c415f572a8488830b60f7e744ed9235eb0b1ba93283b315c03518")['shared_secret']
+    assert (l1.info["id"] ==
+            "036360e856310ce5d294e8be33fc807077dc56ac80d95d9cd4ddbd21325eff73f7")
 
-    # Results in a DER-compressed point, 33 bytes (66 hex chars).
-    assert isinstance(shared_secret, str)
-    assert len(shared_secret) == 66
+    ss = l1.rpc.getecdh("028d7500dd4c12685d1f568b4c2b5048e8534b873319f3a8daa612b469132ec7f7")
+    assert (hashlib.sha256(binascii.unhexlify(ss["shared_secret"])).hexdigest() ==
+            "1e2fb3c8fe8fb9f262f649f64d26ecf0f2c0a805a767cf02dc2d77a6ef1fdcc3")
+
+    del l1.daemon.opts["dev-force-privkey"]
+    l1.restart()
+
+    assert (l1.rpc.getecdh(l2.info["id"])["shared_secret"] ==
+            l2.rpc.getecdh(l1.info["id"])["shared_secret"])
