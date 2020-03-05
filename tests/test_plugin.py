@@ -983,8 +983,7 @@ def test_bcli(node_factory, bitcoind, chainparams):
         l1.rpc.plugin_stop("bcli")
 
     # Failure case of feerate is tested in test_misc.py
-    assert "feerate" in l1.rpc.call("getfeerate", {"blocks": 3,
-                                                   "mode": "CONSERVATIVE"})
+    assert "urgent" in l1.rpc.call("estimatefees")
 
     resp = l1.rpc.call("getchaininfo")
     assert resp["chain"] == chainparams['name']
