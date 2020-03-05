@@ -33,7 +33,7 @@
 /* The names of the request we can make to our Bitcoin backend. */
 static const char *methods[] = {"getchaininfo", "getrawblockbyheight",
                                 "sendrawtransaction", "getutxout",
-                                "getfeerate"};
+                                "estimatefees"};
 
 static void plugin_config_cb(const char *buffer,
 			     const jsmntok_t *toks,
@@ -102,98 +102,76 @@ static void bitcoin_plugin_error(struct bitcoind *bitcoind, const char *buf,
 	      toks->end - toks->start, buf + toks->start);
 }
 
-/* `getfeerate`
+/* `estimatefees`
  *
  * Gather feerate from our Bitcoin backend. Will set the feerate to `null`
  * if estimation failed.
  *
  * Plugin response:
  * {
- *	"feerate": <fee per KB>,
+ *	"urgent": <btc per KB>,
+ *	"normal": <btc per KB>,
+ *	"slow": <btc per KB>
  * }
  */
 
 struct estimatefee_call {
 	struct bitcoind *bitcoind;
-	size_t i;
-	const u32 *blocks;
-	const char **estmode;
-
 	void (*cb)(struct bitcoind *bitcoind, const u32 satoshi_per_kw[],
 		   void *);
 	void *arg;
-	u32 *satoshi_per_kw;
 };
 
-static void do_one_estimatefee(struct bitcoind *bitcoind,
-			       struct estimatefee_call *call);
-
-static void getfeerate_callback(const char *buf, const jsmntok_t *toks,
-				const jsmntok_t *idtok,
-				struct estimatefee_call *call)
+static void estimatefees_callback(const char *buf, const jsmntok_t *toks,
+				  const jsmntok_t *idtok,
+				  struct estimatefee_call *call)
 {
 	const jsmntok_t *resulttok, *feeratetok;
-	u64 feerate;
+	const char *targets[] = {"urgent", "normal", "slow"};
+	u32 *feerates = tal_arr(call, u32, NUM_FEERATES);
 
 	resulttok = json_get_member(buf, toks, "result");
 	if (!resulttok)
 		bitcoin_plugin_error(call->bitcoind, buf, toks,
-				     "getfeerate",
+				     "estimatefees",
 				     "bad 'result' field");
 
-	feeratetok = json_get_member(buf, resulttok, "feerate");
-	if (!feeratetok)
-		bitcoin_plugin_error(call->bitcoind, buf, toks,
-				     "getfeerate",
-				     "bad 'feerate' field");
+	for (size_t i = 0; i < NUM_FEERATES; i++) {
+		feeratetok = json_get_member(buf, resulttok, targets[i]);
+		if (!feeratetok)
+			bitcoin_plugin_error(call->bitcoind, buf, toks,
+					     "estimatefees",
+					     "bad 'urgent', 'normal' or 'slow'"
+					     " field");
 
-	/* FIXME: We could trawl recent blocks for median fee... */
-	if (!json_to_u64(buf, feeratetok, &feerate)) {
-		log_unusual(call->bitcoind->log, "Unable to estimate %s/%u fee",
-			    call->estmode[call->i], call->blocks[call->i]);
+		/* FIXME: We could trawl recent blocks for median fee... */
+		if (!json_to_u32(buf, feeratetok, &feerates[i])) {
+			log_unusual(call->bitcoind->log,
+				    "Unable to estimate %s fees",
+				    targets[i]);
 
 #if DEVELOPER
-		/* This is needed to test for failed feerate estimates
-		 * in DEVELOPER mode */
-		call->satoshi_per_kw[call->i] = 0;
+			/* This is needed to test for failed feerate estimates
+			* in DEVELOPER mode */
+			feerates[i] = 0;
 #else
-		/* If we are in testnet mode we want to allow payments
-		 * with the minimal fee even if the estimate didn't
-		 * work out. This is less disruptive than erring out
-		 * all the time. */
-		if (chainparams->testnet)
-			call->satoshi_per_kw[call->i] = FEERATE_FLOOR;
-		else
-			call->satoshi_per_kw[call->i] = 0;
+			/* If we are in testnet mode we want to allow payments
+			* with the minimal fee even if the estimate didn't
+			* work out. This is less disruptive than erring out
+			* all the time. */
+			if (chainparams->testnet)
+				feerates[i] = FEERATE_FLOOR;
+			else
+				feerates[i] = 0;
 #endif
-	} else
-		/* Rate in satoshi per kw. */
-		call->satoshi_per_kw[call->i]
-			= feerate_from_style(feerate, FEERATE_PER_KBYTE);
-
-	call->i++;
-	if (call->i == tal_count(call->satoshi_per_kw)) {
-		call->cb(call->bitcoind, call->satoshi_per_kw, call->arg);
-		tal_free(call);
-	} else {
-		/* Next */
-		do_one_estimatefee(call->bitcoind, call);
+		} else
+			/* Rate in satoshi per kw. */
+			feerates[i] = feerate_from_style(feerates[i],
+							 FEERATE_PER_KBYTE);
 	}
-}
 
-static void do_one_estimatefee(struct bitcoind *bitcoind,
-			       struct estimatefee_call *call)
-{
-	struct jsonrpc_request *req;
-
-	req = jsonrpc_request_start(bitcoind, "getfeerate",
-				    bitcoind->log, getfeerate_callback,
-				    call);
-	json_add_num(req->stream, "blocks", call->blocks[call->i]);
-	json_add_string(req->stream, "mode", call->estmode[call->i]);
-	jsonrpc_request_end(req);
-	plugin_request_send(strmap_get(&bitcoind->pluginsmap,
-				       "getfeerate"), req);
+	call->cb(call->bitcoind, feerates, call->arg);
+	tal_free(call);
 }
 
 void bitcoind_estimate_fees_(struct bitcoind *bitcoind,
@@ -203,18 +181,20 @@ void bitcoind_estimate_fees_(struct bitcoind *bitcoind,
 					const u32 satoshi_per_kw[], void *),
 			     void *arg)
 {
-	struct estimatefee_call *efee = tal(bitcoind, struct estimatefee_call);
+	struct jsonrpc_request *req;
+	struct estimatefee_call *call = tal(bitcoind, struct estimatefee_call);
 
-	efee->bitcoind = bitcoind;
-	efee->i = 0;
-	efee->blocks = tal_dup_arr(efee, u32, blocks, num_estimates, 0);
-	efee->estmode = tal_dup_arr(efee, const char *, estmode, num_estimates,
-				    0);
-	efee->cb = cb;
-	efee->arg = arg;
-	efee->satoshi_per_kw = tal_arr(efee, u32, num_estimates);
+	call->bitcoind = bitcoind;
+	call->cb = cb;
+	call->arg = arg;
 
-	do_one_estimatefee(bitcoind, efee);
+	/* No parameter needed, we always want an urgent, normal and slow
+	 * feerate. This gives computation flexibility to the plugin. */
+	req = jsonrpc_request_start(bitcoind, "estimatefees", bitcoind->log,
+				    estimatefees_callback, call);
+	jsonrpc_request_end(req);
+	plugin_request_send(strmap_get(&bitcoind->pluginsmap,
+				       "estimatefees"), req);
 }
 
 /* `sendrawtransaction`
