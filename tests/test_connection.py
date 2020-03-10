@@ -491,7 +491,7 @@ def test_reconnect_sender_add1(node_factory):
     # Feerates identical so we don't get gratuitous commit to update them
     l1 = node_factory.get_node(disconnect=disconnects,
                                may_reconnect=True,
-                               feerates=(7500, 7500, 7500))
+                               feerates=(7500, 7500, 7500, 7500))
     l2 = node_factory.get_node(may_reconnect=True)
     l1.rpc.connect(l2.info['id'], 'localhost', l2.port)
 
@@ -526,7 +526,7 @@ def test_reconnect_sender_add(node_factory):
     # Feerates identical so we don't get gratuitous commit to update them
     l1 = node_factory.get_node(disconnect=disconnects,
                                may_reconnect=True,
-                               feerates=(7500, 7500, 7500))
+                               feerates=(7500, 7500, 7500, 7500))
     l2 = node_factory.get_node(may_reconnect=True)
     l1.rpc.connect(l2.info['id'], 'localhost', l2.port)
 
@@ -554,7 +554,7 @@ def test_reconnect_receiver_add(node_factory):
                    '@WIRE_REVOKE_AND_ACK',
                    '+WIRE_REVOKE_AND_ACK']
     # Feerates identical so we don't get gratuitous commit to update them
-    l1 = node_factory.get_node(may_reconnect=True, feerates=(7500, 7500, 7500))
+    l1 = node_factory.get_node(may_reconnect=True, feerates=(7500, 7500, 7500, 7500))
     l2 = node_factory.get_node(disconnect=disconnects,
                                may_reconnect=True)
     l1.rpc.connect(l2.info['id'], 'localhost', l2.port)
@@ -1348,7 +1348,8 @@ def test_channel_persistence(node_factory, bitcoind, executor):
     # mysteriously die while committing the first HTLC so we can
     # check that HTLCs reloaded from the DB work.
     # Feerates identical so we don't get gratuitous commit to update them
-    l1 = node_factory.get_node(may_reconnect=True, feerates=(7500, 7500, 7500))
+    l1 = node_factory.get_node(may_reconnect=True, feerates=(7500, 7500, 7500,
+                                                             7500))
     l2 = node_factory.get_node(disconnect=['=WIRE_COMMITMENT_SIGNED-nocommit'],
                                may_reconnect=True)
     l1.rpc.connect(l2.info['id'], 'localhost', l2.port)
@@ -1460,7 +1461,7 @@ def test_update_fee(node_factory, bitcoind):
     chanid = l1.get_channel_scid(l2)
 
     # Make l1 send out feechange.
-    l1.set_feerates((14000, 7500, 3750))
+    l1.set_feerates((14000, 11000, 7500, 3750))
     l2.daemon.wait_for_log('peer updated fee to 14000')
 
     # Now make sure an HTLC works.
@@ -1497,7 +1498,7 @@ def test_fee_limits(node_factory, bitcoind):
 
     # L1 asks for stupid low fee (will actually hit the floor of 253)
     l1.stop()
-    l1.set_feerates((15, 15, 15), False)
+    l1.set_feerates((15, 15, 15, 15), False)
     l1.start()
 
     l1.daemon.wait_for_log('Peer transient failure in CHANNELD_NORMAL: channeld: .*: update_fee 253 outside range 1875-75000')
@@ -1516,7 +1517,7 @@ def test_fee_limits(node_factory, bitcoind):
 
     # Restore to normal.
     l1.stop()
-    l1.set_feerates((15000, 7500, 3750), False)
+    l1.set_feerates((15000, 11000, 7500, 3750), False)
     l1.start()
 
     # Try with node which sets --ignore-fee-limits
@@ -1526,7 +1527,7 @@ def test_fee_limits(node_factory, bitcoind):
 
     # Try stupid high fees
     l1.stop()
-    l1.set_feerates((15000 * 10, 7500, 3750), False)
+    l1.set_feerates((15000 * 10, 11000, 7500, 3750), False)
     l1.start()
 
     l3.daemon.wait_for_log('peer_in WIRE_UPDATE_FEE')
@@ -1556,7 +1557,7 @@ def test_update_fee_reconnect(node_factory, bitcoind):
 
     # Make l1 send out feechange; triggers disconnect/reconnect.
     # (Note: < 10% change, so no smoothing here!)
-    l1.set_feerates((14000, 14000, 3750))
+    l1.set_feerates((14000, 14000, 14000, 3750))
     l1.daemon.wait_for_log('Setting REMOTE feerate to 14000')
     l2.daemon.wait_for_log('Setting LOCAL feerate to 14000')
     l1.daemon.wait_for_log(r'dev_disconnect: \+WIRE_COMMITMENT_SIGNED')
@@ -1835,7 +1836,7 @@ def test_no_fee_estimate(node_factory, bitcoind, executor):
     bitcoind.generate_block(100)
 
     # Start estimatesmartfee.
-    l1.set_feerates((15000, 7500, 3750), True)
+    l1.set_feerates((15000, 11000, 7500, 3750), True)
 
     # Can now fund a channel (as a test, use slow feerate).
     l1.rpc.connect(l2.info['id'], 'localhost', l2.port)
@@ -1857,7 +1858,7 @@ def test_funder_feerate_reconnect(node_factory, bitcoind):
     l1.fund_channel(l2, 10**6)
 
     # create fee update, causing disconnect.
-    l1.set_feerates((15000, 7500, 3750))
+    l1.set_feerates((15000, 11000, 7500, 3750))
     l2.daemon.wait_for_log(r'dev_disconnect: \-WIRE_COMMITMENT_SIGNED')
 
     # Wait until they reconnect.
@@ -2216,7 +2217,7 @@ def test_feerate_spam(node_factory, chainparams):
     wait_for(lambda: l1.daemon.is_in_log('peer_out WIRE_UPDATE_FEE'))
 
     # Now change feerates to something l1 can't afford.
-    l1.set_feerates((100000, 100000, 100000))
+    l1.set_feerates((100000, 100000, 100000, 100000))
 
     # It will raise as far as it can (34000)
     l1.daemon.wait_for_log('Setting REMOTE feerate to 34000')
