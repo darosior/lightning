@@ -2300,7 +2300,7 @@ def test_lockup_drain(node_factory, bitcoind):
     # a very long time!).
     l1.restart()
     wait_for(lambda: only_one(l1.rpc.listpeers()['peers'])['connected'])
-    assert(l1.rpc.feerates('perkw')['perkw']['normal'] == 22500)
+    assert(l1.rpc.feerates('perkw')['perkw']['opening'] == 22500)
 
     l2.pay(l1, total // 2)
 
