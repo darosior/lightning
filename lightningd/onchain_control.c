@@ -486,7 +486,7 @@ enum watch_result onchaind_funding_spent(struct channel *channel,
 		return KEEP_WATCHING;
 	}
 
-	stubs = wallet_htlc_stubs(tmpctx, ld->wallet, channel);
+	stubs = wallet_htlc_stubs(channel, ld->wallet, channel);
 	if (!stubs) {
 		log_broken(channel->log, "Could not load htlc_stubs");
 		return KEEP_WATCHING;
