@@ -1037,13 +1037,16 @@ def test_bitcoin_backend(node_factory, bitcoind):
                                " bitcoind")
 
 
+@unittest.skipIf(not DEVELOPER, "Too slow without --dev-bitcoind-poll")
 def test_bcli(node_factory, bitcoind, chainparams):
     """
     This tests the bcli plugin, used to gather Bitcoin data from a local
     bitcoind.
     Mostly sanity checks of the interface..
     """
-    l1, l2 = node_factory.get_nodes(2)
+    normal_kw = 500
+    l1, l2 = node_factory.get_nodes(2, opts={"feerates": [normal_kw] * 3,
+                                             "dev-bitcoind-poll": 1})
 
     # We cant stop it dynamically
     with pytest.raises(RpcError):
@@ -1082,6 +1085,25 @@ def test_bcli(node_factory, bitcoind, chainparams):
 
     resp = l1.rpc.call("sendrawtransaction", {"tx": "dummy"})
     assert not resp["success"] and "decode failed" in resp["errmsg"]
+
+    # We shouldn't be able to set a too small feerate
+    with pytest.raises(RpcError, match="below min relay fee."):
+        l1.rpc.call("setmutualclosefeerate", {"feerate": 999})
+    mutual_feerate = 1500
+    assert l1.rpc.call("setmutualclosefeerate",
+                       {"feerate": mutual_feerate})["success"]
+    assert l1.rpc.call("estimatefees")["mutual_close"] == mutual_feerate
+
+    # Not exact feerate because smoothing
+    while (l1.rpc.feerates("perkb")["perkb"]["mutual_close"]
+           >= mutual_feerate * 1.1):
+        l1.daemon.wait_for_log("Feerate estimate for mutual_close set to")
+
+    # Resets the feerate
+    assert l1.rpc.call("setmutualclosefeerate", {"feerate": None})["success"]
+    while (l1.rpc.feerates("perkw")["perkw"]["mutual_close"]
+           <= normal_kw * 0.85):
+        l1.daemon.wait_for_log("Feerate estimate for mutual_close set to")
 
 
 def test_hook_crash(node_factory, executor, bitcoind):

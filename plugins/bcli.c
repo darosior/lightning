@@ -63,6 +63,9 @@ struct bitcoind {
 	/* The factor to time the urgent feerate by to get the maximum
 	 * acceptable feerate. */
 	u32 max_fee_multiplier;
+
+	/* If not NULL, an user-defined feerate for mutual close. */
+	u64 *mutual_close_feerate;
 };
 
 static struct bitcoind *bitcoind;
@@ -531,7 +534,11 @@ static struct command_result *estimatefees_final_step(struct bitcoin_cli *bcli)
 
 	response = jsonrpc_stream_success(bcli->cmd);
 	json_add_u64(response, "opening", stash->normal);
-	json_add_u64(response, "mutual_close", stash->normal);
+	if (bitcoind->mutual_close_feerate)
+		json_add_u64(response, "mutual_close",
+			     *bitcoind->mutual_close_feerate);
+	else
+		json_add_u64(response, "mutual_close", stash->normal);
 	json_add_u64(response, "unilateral_close", stash->urgent);
 	json_add_u64(response, "delayed_to_us", stash->normal);
 	json_add_u64(response, "htlc_resolution", stash->normal);
@@ -792,6 +799,33 @@ static struct command_result *getutxout(struct command *cmd,
 	return command_still_pending(cmd);
 }
 
+static struct command_result *setmutualclosefeerate(struct command *cmd,
+						    const char *buf,
+						    const jsmntok_t *toks)
+{
+	u64 *feerate;
+	struct json_stream *response;
+
+	if (!param(cmd, buf, toks,
+		   p_opt("feerate", param_u64, &feerate),
+		   NULL))
+		return command_param_failed();
+
+	if (feerate) {
+		if (*feerate < 1000)
+			return command_done_err(cmd, JSONRPC2_INVALID_PARAMS,
+						"Feerate %"PRIu64" below min "
+						"relay fee.", NULL);
+		bitcoind->mutual_close_feerate = tal_steal(bitcoind, feerate);
+	} else
+		bitcoind->mutual_close_feerate =
+			tal_free(bitcoind->mutual_close_feerate);
+
+	response = jsonrpc_stream_success(cmd);
+	json_add_bool(response, "success", true);
+	return command_finished(cmd, response);
+}
+
 static void bitcoind_failure(struct plugin *p, const char *error_message)
 {
 	const char **cmd = gather_args(bitcoind, "echo", NULL);
@@ -900,6 +934,15 @@ static const struct plugin_command commands[] = {
 		"",
 		getutxout
 	},
+	{
+		"setmutualclosefeerate",
+		"bitcoin",
+		"Set the feerate for the mutual close transactions.",
+		"Takes an optional {feerate} parameter, representing a sat/kVByte"
+		"feerate. If called without the {feerate} argument, resets the"
+		" feerate to default.",
+		setmutualclosefeerate
+	}
 };
 
 int main(int argc, char *argv[])
@@ -922,6 +965,7 @@ int main(int argc, char *argv[])
 	bitcoind->rpcconnect = NULL;
 	bitcoind->rpcport = NULL;
 	bitcoind->max_fee_multiplier = 10;
+	bitcoind->mutual_close_feerate = NULL;
 
 	plugin_main(argv, init, PLUGIN_STATIC, commands, ARRAY_SIZE(commands),
 		    NULL, 0, NULL, 0,
