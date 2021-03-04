@@ -953,8 +953,9 @@ static void register_opts(struct lightningd *ld)
 	opt_register_noarg("--disable-dns", opt_set_invbool, &ld->config.use_dns,
 			   "Disable DNS lookups of peers");
 
-	opt_register_noarg("--enable-autotor-v2-mode", opt_set_invbool, &ld->config.use_v3_autotor,
-			   "Try to get a v2 onion address from the Tor service call, default is v3");
+	if (deprecated_apis)
+		opt_register_noarg("--enable-autotor-v2-mode", opt_set_invbool, &ld->config.use_v3_autotor,
+			   	   "Try to get a v2 onion address from the Tor service call, default is v3");
 
 	opt_register_noarg("--encrypted-hsm", opt_set_hsm_password, ld,
 	                   "Set the password to encrypt hsm_secret with. If no password is passed through command line, "

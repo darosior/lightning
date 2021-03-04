@@ -35,6 +35,7 @@ GOSSIPD_COMMON_OBJS :=				\
 	common/bip32.o				\
 	common/blinding.o			\
 	common/channel_id.o			\
+	common/configdir.o			\
 	common/crypto_state.o			\
 	common/cryptomsg.o			\
 	common/daemon.o				\

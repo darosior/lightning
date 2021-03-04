@@ -8,6 +8,7 @@
 #include <ccan/str/hex/hex.h>
 #include <ccan/tal/str/str.h>
 #include <common/base32.h>
+#include <common/configdir.h>
 #include <common/type_to_string.h>
 #include <common/utils.h>
 #include <common/wireaddr.h>
@@ -334,6 +335,12 @@ wireaddr_from_hostname(const tal_t *ctx,
 				     strlen(hostname) - strlen(".onion"));
 		tal_resize(&addrs, 1);
 		if (tal_count(dec) == TOR_V2_ADDRLEN) {
+			if (!deprecated_apis) {
+				if (err_msg)
+					*err_msg = "v2 Tor onion services are deprecated";
+				return tal_free(addrs);
+			}
+
 			addrs[0].type = ADDR_TYPE_TOR_V2;
 		} else if (tal_count(dec) == TOR_V3_ADDRLEN) {
 			addrs[0].type = ADDR_TYPE_TOR_V3;

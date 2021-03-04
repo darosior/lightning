@@ -1194,11 +1194,11 @@ msgstr ""
 msgid "SELECT status  FROM offers WHERE offer_id = ?;"
 msgstr ""
 
-#: wallet/test/run-db.c:120
+#: wallet/test/run-db.c:123
 msgid "SELECT name FROM sqlite_master WHERE type='table';"
 msgstr ""
 
-#: wallet/test/run-db.c:125
+#: wallet/test/run-db.c:128
 msgid "not a valid SQL statement"
 msgstr ""
 
@@ -1209,4 +1209,4 @@ msgstr ""
 #: wallet/test/run-wallet.c:1602
 msgid "INSERT INTO channels (id) VALUES (1);"
 msgstr ""
-#  SHA256STAMP:b9f3498738d18d7ed02f83699d902e480e8d75289b18deb5c2d5fe9d1f66c149
+#  SHA256STAMP:f2d1a056de88002371d00de42ce197f8cb1e9ef4fc051fa5efd4866da7218ed8

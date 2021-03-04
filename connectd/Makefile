@@ -33,6 +33,7 @@ CONNECTD_COMMON_OBJS :=				\
 	common/bigsize.o			\
 	common/bip32.o				\
 	common/channel_id.o			\
+	common/configdir.o			\
 	common/crypto_state.o			\
 	common/cryptomsg.o			\
 	common/daemon.o				\
